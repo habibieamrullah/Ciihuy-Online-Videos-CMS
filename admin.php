@@ -28,6 +28,11 @@ $password = "%0WJoM@9s$";
 		
 		<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
 		
+		<script src="tinymce/tinymce.min.js"></script>
+		<script>
+			tinymce.init({ selector : 'textarea' , plugins : 'directionality, code', toolbar : 'ltr rtl, code', relative_urls: false, remove_script_host : false, });
+		</script>
+		
 		<?php include("style.php"); ?>
 		<style>
 			body{
@@ -67,7 +72,7 @@ $password = "%0WJoM@9s$";
 									<a href="admin.php"><img src="images/logo.png" style="display: border-box; width: 100%;"></a>
 								</div>
 								<a href="admin.php"><div class="adminleftbaritem"><i class="fa fa-home" style="width: 30px;"></i> Home</div></a>
-								<div class="adminleftbaritem"><i class="fa fa-file" style="width: 30px;"></i> New Post</div>
+								<a href="?newpost"><div class="adminleftbaritem"><i class="fa fa-file" style="width: 30px;"></i> New Post</div></a>
 								<a href="?categories"><div class="adminleftbaritem"><i class="fa fa-tag" style="width: 30px;"></i> Categories</div></a>
 								<div class="adminleftbaritem"><i class="fa fa-image" style="width: 30px;"></i> Pictures</div>
 								<div class="adminleftbaritem"><i class="fa fa-film" style="width: 30px;"></i> Videos</div>
@@ -77,8 +82,60 @@ $password = "%0WJoM@9s$";
 						</div>
 						<div style="display: table-cell; padding: 25px; vertical-align: top;">
 							<?php
+							//newpost
+							if(isset($_GET["newpost"])){
+								?>
+								<h1>New Post</h1>
+								<?php
+								if(isset($_POST["newposttitle"])){
+									$newposttitle = mysqli_real_escape_string($connection, $_POST["newposttitle"]);
+									$newpostcontent = mysqli_real_escape_string($connection, $_POST["newpostcontent"]);
+									
+									if($newposttitle != "" && $newpostcontent != ""){
+										?>
+										<h3>Congratulation!</h3>
+										<p>New post has been published. Click <a class="textlink" href="#">here</a> to view it.</p>
+										<?php
+									}else{
+										?>
+										<h3>Oh no...</h3>
+										<p>You did not submit your post correctly. Click <a class="textlink" href="?newpost">here</a> to try again.</p>
+										<?php
+									}
+								}else{
+									?>
+									<form method="post">
+										<label>Title</label>
+										<input name="newposttitle" placeholder="Title">
+										<label>Category</label>
+										<select name="catid">
+											<?php
+											$catsql = "SELECT * FROM $tablecategories ORDER BY category ASC";
+											$catresult = mysqli_query($connection, $catsql);
+											if(mysqli_num_rows($catresult) > 0){
+												while($catrow = mysqli_fetch_assoc($catresult)){
+													?>
+													<option value="<?php echo $catrow["id"] ?>"><?php echo $catrow["category"] ?></option>
+													<?php
+												}
+											}
+											?>
+											<option value="0" selected="selected">Uncategorized</option>
+										</select>
+										<label>Content</label>
+										<textarea name="newpostcontent" style="height: 250px;"></textarea>
+										<input name="picture" id="picture" style="display: none">
+										<input name="video" id="video" style="display: none">
+										<br>
+										<input type="submit" value="Submit" class="submitbutton">
+									</form>
+									<?php
+								}
+								
+								
+							}
 							//categories
-							if(isset($_GET["categories"])){
+							else if(isset($_GET["categories"])){
 								?>
 								<h1>Categories</h1>
 								<?php
@@ -97,7 +154,19 @@ $password = "%0WJoM@9s$";
 								}
 								
 								if(isset($_GET["updatecategory"])){
+									?>
+									<h3><a href="?categories"><i class="fa fa-arrow-left"></i> Back</a></h3>
+									<?php
 									$id = mysqli_real_escape_string($connection, $_GET["updatecategory"]);
+									
+									if(isset($_POST["newcategoryupdate"])){
+										$newcatname = mysqli_real_escape_string($connection, $_POST["newcategoryupdate"]);
+										if($newcatname != ""){
+											mysqli_query($connection, "UPDATE $tablecategories SET category = '$newcatname' WHERE id = $id");
+											echo "<div class='alert'>Category updated.</div>";
+										}
+									}
+									
 									$sql = "SELECT * FROM $tablecategories WHERE id = $id";
 									$row = mysqli_fetch_assoc(mysqli_query($connection, $sql));
 									?>

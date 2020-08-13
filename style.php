@@ -15,7 +15,7 @@
 	}
 	/* Handle on hover */
 	::-webkit-scrollbar-thumb:hover {
-		background: <?php echo $maincolor ?>; 
+		background: <?php echo $secondcolor ?>; 
 	}
 
 	h1, h2, h3, h4, h5, p{
@@ -44,9 +44,16 @@
 		background-size: cover;
 	}
 	
-	input{
+	input, textarea{
 		box-sizing: border-box;
 		width: 100%;
+		padding: 20px;
+		border-radius: 5px;
+		margin-bottom: 20px;
+		border: none;
+	}
+	
+	select{
 		padding: 20px;
 		border-radius: 5px;
 		margin-bottom: 20px;
@@ -64,11 +71,10 @@
 	
 	.textlink{
 		text-decoration: underline;
-		color: inherit;
+		color: <?php echo $maincolor ?>; 
 	}
 	.textlink:hover{
 		text-decoration: none;
-		color: <?php echo $maincolor ?>; 
 	}
 	
 	a{

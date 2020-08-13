@@ -17,6 +17,7 @@ $connection->set_charset("utf8");
 
 //Database table names
 $tableconfig = $databaseprefix . "config";
+$tableposts = $databaseprefix . "posts";
 $tablecategories = $databaseprefix . "categories";
 
 //Creating tables - config
@@ -24,6 +25,16 @@ mysqli_query($connection, "CREATE TABLE IF NOT EXISTS $tableconfig (
 id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 config VARCHAR(150) NOT NULL,
 value VARCHAR(400) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
+)");
+
+//Creating tables - posts
+mysqli_query($connection, "CREATE TABLE IF NOT EXISTS $tableposts (
+id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+catid INT(6) NOT NULL,
+title VARCHAR(300) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+picture VARCHAR(150) NOT NULL,
+video VARCHAR(150) NOT NULL,
+content VARCHAR(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
 )");
 
 //Creating tables - categories
