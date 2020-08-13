@@ -34,7 +34,7 @@
 		padding-top: 100px;
 		font-family: 'Dosis', sans-serif;
 		background-color: #4a4a4a;
-		
+		color: white;
 		overflow-x: hidden;
 		
 		background: url(images/bgimage.jpg) no-repeat fixed center; 
@@ -60,7 +60,6 @@
 	}
 	.submitbutton:hover{
 		background-color: <?php echo $secondcolor ?>; 
-		transition: background-color .5s;
 	}
 	
 	.textlink{
@@ -89,5 +88,15 @@
 		padding: 10px;
 		border-radius: 5px;
 		margin-bottom: 10px;
+	}
+	
+	.categoryblock{
+		display: inline-block;
+		background-color: <?php echo $maincolor ?>; 
+		border-radius: 10px;
+		color: black;
+		padding: 5px;
+		font-weight: bold;
+		margin: 5px;
 	}
 </style>

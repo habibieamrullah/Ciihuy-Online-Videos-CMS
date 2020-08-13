@@ -18,8 +18,7 @@ include("config.php");
           integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
           crossorigin="anonymous"></script>
         <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@300&display=swap" rel="stylesheet">
-		
-		<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo $baseurl ?>/assets/css/font-awesome.css">
 		
 		<?php include("style.php"); ?>
 	</head>
