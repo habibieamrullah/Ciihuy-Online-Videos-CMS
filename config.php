@@ -71,4 +71,12 @@ if(mysqli_num_rows($result) == 0){
 	}
 }
 
+
+
+//Creating videos folder
+if(!file_exists("videos"))
+	mkdir("videos");
+//Creating pictures folder
+if(!file_exists("pictures"))
+	mkdir("pictures");
 ?>
