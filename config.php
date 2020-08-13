@@ -28,6 +28,7 @@ value VARCHAR(400) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
 //Default website config values
 $websitetitle = "Some Cool Website";
 $maincolor = "blue";
+$secondcolor = "red";
 
 //Generating default website config
 $sql = "SELECT * FROM $tableconfig";
@@ -37,6 +38,7 @@ $result = mysqli_query($connection, $sql);
 if(mysqli_num_rows($result) == 0){
 	//Then generate default values
 	$sql = "INSERT INTO $tableconfig (config, value) VALUES ('websitetitle', '$websitetitle');";
+	$sql .= "INSERT INTO $tableconfig (config, value) VALUES ('secondcolor', '$secondcolor');";
 	$sql .= "INSERT INTO $tableconfig (config, value) VALUES ('maincolor', '$maincolor')";
 	mysqli_multi_query($connection, $sql);
 }else{
@@ -48,6 +50,9 @@ if(mysqli_num_rows($result) == 0){
 				break;
 			case "maincolor" :
 				$maincolor = $row["value"];
+				break;
+			case "secondcolor" :
+				$secondcolor = $row["value"];
 				break;
 		}
 	}

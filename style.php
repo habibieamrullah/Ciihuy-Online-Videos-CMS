@@ -53,6 +53,16 @@
 		border: none;
 	}
 	
+	.submitbutton{
+		background-color: <?php echo $maincolor ?>; 
+		color: black;
+		cursor: pointer;
+	}
+	.submitbutton:hover{
+		background-color: <?php echo $secondcolor ?>; 
+		transition: background-color .5s;
+	}
+	
 	.textlink{
 		text-decoration: underline;
 		color: inherit;
@@ -69,6 +79,15 @@
 	
 	label{
 		display: block;
+		margin-bottom: 10px;
+	}
+	
+	.alert{
+		background-color: green; 
+		color: white;
+		font-weight: bold;
+		padding: 10px;
+		border-radius: 5px;
 		margin-bottom: 10px;
 	}
 </style>

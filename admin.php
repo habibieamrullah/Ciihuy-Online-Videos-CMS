@@ -81,8 +81,10 @@ $password = "%0WJoM@9s$";
 								if(isset($_POST["websitetitle"])){
 									$websitetitle = mysqli_real_escape_string($connection, $_POST["websitetitle"]);
 									$maincolor = mysqli_real_escape_string($connection, $_POST["maincolor"]);
+									$secondcolor = mysqli_real_escape_string($connection, $_POST["secondcolor"]);
 									mysqli_query($connection, "UPDATE $tableconfig SET value = '$websitetitle' WHERE config = 'websitetitle'");
 									mysqli_query($connection, "UPDATE $tableconfig SET value = '$maincolor' WHERE config = 'maincolor'");
+									mysqli_query($connection, "UPDATE $tableconfig SET value = '$secondcolor' WHERE config = 'secondcolor'");
 									echo "<div class='alert'>Settings updated!</div>";
 								}
 								?>
@@ -104,10 +106,16 @@ $password = "%0WJoM@9s$";
 											<input placeholder="Main Color" name="maincolor" value="<?php echo $row["value"] ?>">
 											<?php
 											break;
+										case "secondcolor" :
+											?>
+											<label>Secondary Color</label>
+											<input placeholder="Secondary Color" name="secondcolor" value="<?php echo $row["value"] ?>">
+											<?php
+											break;
 									}
 								}
 								?>
-								<input type="submit" value="Save">
+								<input class="submitbutton" type="submit" value="Save">
 								</form>
 								<?php
 							}else{
@@ -148,7 +156,7 @@ $password = "%0WJoM@9s$";
 					<form method="post">
 						<input type="text" name="username" placeholder="Username">
 						<input type="password" name="password" placeholder="Password">
-						<input type="submit" value="Login">
+						<input class="submitbutton" type="submit" value="Login">
 					</form>
 				</div>
 				<?php
