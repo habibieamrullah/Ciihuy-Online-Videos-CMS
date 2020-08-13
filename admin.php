@@ -84,28 +84,50 @@ $password = "%0WJoM@9s$";
 								<?php
 								if(isset($_POST["newcategory"])){
 									$newcategory = mysqli_real_escape_string($connection, $_POST["newcategory"]);
-									mysqli_query($connection, "INSERT INTO $tablecategories (category) VALUES ('$newcategory')");
-									echo "<div class='alert'>New category has been added.</div>";
+									if($newcategory != ""){
+										mysqli_query($connection, "INSERT INTO $tablecategories (category) VALUES ('$newcategory')");
+										echo "<div class='alert'>New category has been added.</div>";
+									}
 								}
 								
-								$sql = "SELECT * FROM $tablecategories";
-								$result = mysqli_query($connection, $sql);
-								if(mysqli_num_rows($result) > 0){
-									while($row = mysqli_fetch_assoc($result)){
-										?>
-										<div class="categoryblock"><i class="fa fa-tag"></i> <?php echo $row["category"] ?> <span style="margin-left: 20px; font-size: 12px;"><i class="fa fa-edit"></i> edit <i class="fa fa-trash"></i> delete</span></div>
-										<?php
-									}
-								}else{
-									echo "<p>No category has been added.</p>";
+								if(isset($_GET["deletecategory"])){
+									$id = mysqli_real_escape_string($connection, $_GET["deletecategory"]);
+									mysqli_query($connection, "DELETE FROM $tablecategories WHERE id = $id");
+									echo "<div class='alert'>One category removed.</div>";
 								}
-								?>
-								<br><br>
-								<form method="post">
-									<input type="text" placeholder="New category" name="newcategory">
-									<input type="submit" value="Add" class="submitbutton">
-								</form>
-								<?php
+								
+								if(isset($_GET["updatecategory"])){
+									$id = mysqli_real_escape_string($connection, $_GET["updatecategory"]);
+									$sql = "SELECT * FROM $tablecategories WHERE id = $id";
+									$row = mysqli_fetch_assoc(mysqli_query($connection, $sql));
+									?>
+									<form method="post">
+										<label>Enter new name for category: <?php echo $row["category"] ?></label>
+										<input type="text" placeholder="New category name" name="newcategoryupdate" value="<?php echo $row["category"] ?>">
+										<input type="submit" value="Update" class="submitbutton">
+									</form>
+									<?php
+								}else{
+									$sql = "SELECT * FROM $tablecategories";
+									$result = mysqli_query($connection, $sql);
+									if(mysqli_num_rows($result) > 0){
+										while($row = mysqli_fetch_assoc($result)){
+											?>
+											<div class="categoryblock"><i class="fa fa-tag"></i> <?php echo $row["category"] ?> <span style="margin-left: 20px; font-size: 12px; color: #535353;"><a href="?categories&updatecategory=<?php echo $row["id"] ?>"><i class="fa fa-edit"></i> edit</a> | <a href="?categories&deletecategory=<?php echo $row["id"] ?>"><i class="fa fa-trash"></i> delete</a></span></div>
+											<?php
+										}
+									}else{
+										echo "<p>No category has been added.</p>";
+									}
+									?>
+									<br><br>
+									<form method="post">
+										<input type="text" placeholder="New category" name="newcategory">
+										<input type="submit" value="Add" class="submitbutton">
+									</form>
+									<?php
+								}
+
 							}
 							//settings
 							else if(isset($_GET["settings"])){
@@ -216,5 +238,11 @@ $password = "%0WJoM@9s$";
 			echo "<script>location.href='admin.php'</script>";
 		}
 		?>
+		
+		<script>
+			setTimeout(function(){
+				$(".alert").slideUp()
+			}, 2000)
+		</script>
 	</body>
 </html>
