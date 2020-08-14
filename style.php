@@ -2,7 +2,7 @@
 	/* SCROLLBAR STYLING */
 	/* width */
 	::-webkit-scrollbar {
-		width: 10px;
+		width: 5px;
 		height: 5px;
 	}
 	/* Track */
@@ -24,14 +24,12 @@
 	}
 
 	p{
-		font-size: 18px;
 		margin-bottom: 15px;
 	}
 
 	body{
 		padding: 0px;
 		margin: 0px;
-		padding-top: 100px;
 		font-family: 'Dosis', sans-serif;
 		background-color: #4a4a4a;
 		color: white;
@@ -43,6 +41,7 @@
 		-o-background-size: cover;
 		background-size: cover;
 	}
+	
 	
 	input, textarea{
 		box-sizing: border-box;
@@ -140,4 +139,129 @@
 		background-color: black;
 		color: <?php echo $maincolor ?>;
 	}
+	
+	.inlinecenterblock{
+		display: inline-block;
+		vertical-align: middle;
+		padding: 20px;
+	}
+	
+	#header{
+		background-color: #212121;		
+		border-bottom: 1px solid #424242;
+		position: -webkit-sticky; /* Safari */
+		position: sticky;
+		top: 0;
+		font-size: 25px;
+		/*border-bottom: 1px solid <?php echo $maincolor ?>;*/
+		-webkit-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.75);
+		-moz-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.75);
+		box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.75);
+		
+		z-index: 100;
+	}
+	
+	.section{
+		padding: 20px;
+	}
+	
+	.footerlink{
+		background-color: #212121;
+		display: table; 
+		width: 100%;
+		font-size: 13px;
+		padding-left: 100px;
+		padding-right: 100px;
+		box-sizing: border-box;
+	}
+	
+	.flblock{
+		display: table-cell;
+		text-align: left;
+		padding: 20px;
+		vertical-align: top;
+		max-width: 200px;
+	}
+	
+	.footercopyright{
+		font-size: 11px;
+		color: #c6c6c6;
+		background-color: #424242;
+		text-align: center;
+	}
+	
+	ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+	
+	li{
+		width: 100%;
+		display: inline-block;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		transition: color .5s;
+	}
+	
+	li:hover{
+		color: <?php echo $maincolor ?>;
+		transition: color .5s;
+	}
+	
+	.firstthreeblock{
+		margin: 30px;
+		background-color: black;
+		border-radius: 20px;
+		border: 1px solid black;
+		transition: border .5s;
+	}
+	
+	.firstthreeblock:hover{
+		border: 1px solid <?php echo $maincolor ?>;
+		transition: border .5s;
+	}
+	
+	.morebutton{
+		padding: 20px;
+		border-radius: 10px;
+		border: 1px solid white;
+		transition: background-color .5s;
+	}
+	
+	.morebutton:hover{
+		background-color: <?php echo $maincolor ?>;
+		transition: background-color .5s;
+		color: black;
+		border: 1px solid black;
+	}
+	
+	.gridcontainer{
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+		justify-content: center;
+		
+	}
+	.filmblock{
+		width: 150px;
+		height: 200px;
+		padding: 5px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+		margin: 10px;
+		text-align: center;
+		position: relative; 
+		border-radius: 20px;
+		cursor: pointer;
+		border: 1px solid black;
+		transition: border .5s;
+	}
+	
+	.filmblock:hover{
+		border: 1px solid <?php echo $maincolor ?>;
+		transition: border .5s;
+	}
+	
 </style>

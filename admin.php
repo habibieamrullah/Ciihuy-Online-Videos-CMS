@@ -14,7 +14,7 @@ $password = "%0WJoM@9s$";
 <!DOCTYPE html>
 <html>
 	<head>
-		<title><?php echo $websitetitle ?> - Administrator</title>
+		<title>Admin Panel | <?php echo $websitetitle ?></title>
 		<meta charset="utf-8">
         <meta http-equiv="Pragma" content="no-cache" />
         <meta http-equiv="Expires" content="0" />
@@ -347,21 +347,50 @@ $password = "%0WJoM@9s$";
 								?>
 								<h1>Home</h1>
 								<p>Welcome, administrator! Click <a class="textlink" href="?logout">here</a> to logout.</p>
-								<h3><i class="fa fa-file"></i> Published Posts</h3>
-								<table style="width: 100%">
-									<tr>
-										<th style="width: 100px;">Date</th>
-										<th>Title</th>
-										<th style="width: 50px;">Edit</th>
-										<th style="width: 50px;">Delete</th>
-									</tr>
-									<?php
-									$nopost = "";
-									$sql = "SELECT * FROM $tableposts ORDER BY id DESC";
+								<?php
+								if(isset($_GET["deletepost"])){
+									$id = mysqli_real_escape_string($connection, $_GET["deletepost"]);
+									
+									$sql = "SELECT * FROM $tableposts WHERE id = $id";
 									$result = mysqli_query($connection, $sql);
-									if(mysqli_num_rows($result) == 0){
-										$nopost = "<p>There is no post published.</p>";
-									}else{
+									if(mysqli_num_rows($result) > 0){
+										$row = mysqli_fetch_assoc($result);
+										
+										$postpic = $row["picture"];
+										$postvid = $row["video"];
+										
+										if($postpic != ""){
+											if(file_exists("pictures/" . $postpic))
+												unlink("pictures/" . $postpic);
+										}
+										
+										if($postvid != ""){
+											if(file_exists("videos/" . $postvid))
+												unlink("videos/" . $postvid);
+										}
+										
+										mysqli_query($connection, "DELETE FROM $tableposts WHERE id = $id");
+										
+										echo "<div class='alert'>\"" . $_GET["title"] . "\" has been deleted.</div>";
+									}
+									
+								}
+								
+								$sql = "SELECT * FROM $tableposts ORDER BY id DESC";
+								$result = mysqli_query($connection, $sql);
+								if(mysqli_num_rows($result) == 0){
+									echo "<p>There is no post published.</p>";
+								}else{
+									?>
+									<h3><i class="fa fa-file"></i> Published Posts</h3>
+									<table style="width: 100%">
+										<tr>
+											<th style="width: 100px;">Date</th>
+											<th>Title</th>
+											<th style="width: 50px;">Edit</th>
+											<th style="width: 50px;">Delete</th>
+										</tr>
+										<?php
 										while($row = mysqli_fetch_assoc($result)){
 											$mil = $row["time"];
 											$seconds = $mil / 1000;
@@ -371,15 +400,14 @@ $password = "%0WJoM@9s$";
 												<td><?php echo $postdate ?></td>
 												<td><a href="#"><?php echo $row["title"] ?></a></td>
 												<td><a href="?editpost=<?php echo $row["id"] ?>"><i class="fa fa-edit"></i> Edit</a></td>
-												<td><a href="?deletepost=<?php echo $row["id"] ?>"><i class="fa fa-trash"></i> Delete</a></td>
+												<td><a href="?deletepost=<?php echo $row["id"] ?>&title=<?php echo $row["title"] ?>"><i class="fa fa-trash"></i> Delete</a></td>
 											</tr>
 											<?php
 										}
-									}
-									?>
-								</table>
-								<?php
-								echo $nopost;
+										?>
+									</table>
+									<?php
+								}
 							}
 							?>
 						</div>
