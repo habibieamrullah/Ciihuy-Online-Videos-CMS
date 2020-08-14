@@ -69,6 +69,15 @@
 		background-color: <?php echo $secondcolor ?>; 
 	}
 	
+	.fileinput{
+		cursor: pointer;
+		border: 3px dashed <?php echo $secondcolor ?>; 
+	}
+	
+	.fileinput:hover{
+		border: 3px solid <?php echo $secondcolor ?>; 
+	}
+	
 	.textlink{
 		text-decoration: underline;
 		color: <?php echo $maincolor ?>; 
@@ -104,5 +113,31 @@
 		padding: 5px;
 		font-weight: bold;
 		margin: 5px;
+	}
+	
+	table {
+		border-collapse: collapse;
+		width: 100%;
+	}
+
+	table, th, td {
+		border: 1px solid gray;
+		font-size: 14px;
+	}
+
+	th{
+		text-align: center;
+		font-weight: bold;
+		background-color: <?php echo $maincolor ?>;
+		color: black;
+	}
+
+	th, td{
+		padding: 10px;
+	}
+
+	tr:hover{
+		background-color: black;
+		color: <?php echo $maincolor ?>;
 	}
 </style>

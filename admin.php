@@ -116,9 +116,9 @@ $password = "%0WJoM@9s$";
 										<textarea name="newpostcontent" style="height: 250px;"></textarea>
 										<br><br>
 										<label><i class="fa fa-image"></i> Image File</label>
-										<input name="newpicture" type="file" accept="image/jpeg, image/png">
+										<input class="fileinput" name="newpicture" type="file" accept="image/jpeg, image/png">
 										<label><i class="fa fa-film"></i> Video File</label>
-										<input name="newvideo" type="file">
+										<input class="fileinput" name="newvideo" type="file" accept="video/mp4">
 										<br>
 										<input type="submit" value="Submit" class="submitbutton">
 									</form>
@@ -280,12 +280,106 @@ $password = "%0WJoM@9s$";
 								</form>
 								<?php
 							}
+							//edit post
+							else if(isset($_GET["editpost"])){
+								
+								$id = mysqli_real_escape_string($connection, $_GET["editpost"]);
+								
+								if(isset($_POST["editposttitle"])){
+									$posttitle = mysqli_real_escape_string($connection, $_POST["editposttitle"]);
+									$catid = mysqli_real_escape_string($connection, $_POST["editcatid"]);
+									$content = mysqli_real_escape_string($connection, $_POST["editpostcontent"]);
+									
+									if($posttitle != "" && $content != ""){
+										mysqli_query($connection, "UPDATE $tableposts SET title = '$posttitle', catid = $catid, content = '$content' WHERE id = $id");
+										echo "<div class='alert'>Post successfully updated.</div>";
+									}
+									
+								}
+								
+								
+								$sql = "SELECT * FROM $tableposts WHERE id = $id";
+								$result = mysqli_query($connection, $sql);
+								if(mysqli_num_rows($result) > 0){
+									$row = mysqli_fetch_assoc($result);
+									?>
+									<h1>Edit post</h1>
+									<form method="post">
+										<label><i class="fa fa-edit"></i> Title</label>
+										<input name="editposttitle" placeholder="Title" value="<?php echo $row["title"] ?>">
+										<label><i class="fa fa-tag"></i> Category</label>
+										
+										<select name="editcatid">
+											<?php
+											$catsql = "SELECT * FROM $tablecategories ORDER BY category ASC";
+											$catresult = mysqli_query($connection, $catsql);
+											if(mysqli_num_rows($catresult) > 0){
+												while($catrow = mysqli_fetch_assoc($catresult)){
+													if($catrow["id"] == $row["catid"]){
+														?>
+														<option value="<?php echo $catrow["id"] ?>" selected="selected"><?php echo $catrow["category"] ?></option>
+														<?php
+													}else{
+														?>
+														<option value="<?php echo $catrow["id"] ?>"><?php echo $catrow["category"] ?></option>
+														<?php
+													}
+												}
+											}
+											if($row["catid"] == 0){
+												?>
+												<option value="0" selected="selected">Uncategorized</option>
+												<?php
+											}
+											?>
+										</select>
+										
+										<label><i class="fa fa-file"></i> Content</label>
+										<textarea name="editpostcontent" style="height: 250px;"><?php echo $row["content"] ?></textarea>
+										<br><br>
+										<input type="submit" value="Update" class="submitbutton">
+									</form>
+									<?php
+								}
+							}
 							//home
 							else{
 								?>
 								<h1>Home</h1>
 								<p>Welcome, administrator! Click <a class="textlink" href="?logout">here</a> to logout.</p>
+								<h3><i class="fa fa-file"></i> Published Posts</h3>
+								<table style="width: 100%">
+									<tr>
+										<th style="width: 100px;">Date</th>
+										<th>Title</th>
+										<th style="width: 50px;">Edit</th>
+										<th style="width: 50px;">Delete</th>
+									</tr>
+									<?php
+									$nopost = "";
+									$sql = "SELECT * FROM $tableposts ORDER BY id DESC";
+									$result = mysqli_query($connection, $sql);
+									if(mysqli_num_rows($result) == 0){
+										$nopost = "<p>There is no post published.</p>";
+									}else{
+										while($row = mysqli_fetch_assoc($result)){
+											$mil = $row["time"];
+											$seconds = $mil / 1000;
+											$postdate = date("d-m-Y", $seconds);
+											?>
+											<tr>
+												<td><?php echo $postdate ?></td>
+												<td><a href="#"><?php echo $row["title"] ?></a></td>
+												<td><a href="?editpost=<?php echo $row["id"] ?>"><i class="fa fa-edit"></i> Edit</a></td>
+												<td><a href="?deletepost=<?php echo $row["id"] ?>"><i class="fa fa-trash"></i> Delete</a></td>
+											</tr>
+											<?php
+										}
+									}
+									?>
+								</table>
 								<?php
+								echo $nopost;
 							}
 							?>
 						</div>
