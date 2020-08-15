@@ -3,6 +3,7 @@
 
 session_start();
 include("config.php");
+include("functions.php");
 
 $username = "313ikmaltv2020";
 $password = "%0WJoM@9s$";
@@ -387,6 +388,7 @@ $password = "%0WJoM@9s$";
 										<tr>
 											<th style="width: 100px;">Date</th>
 											<th>Title</th>
+											<th>Category</th>
 											<th style="width: 50px;">Edit</th>
 											<th style="width: 50px;">Delete</th>
 										</tr>
@@ -399,6 +401,7 @@ $password = "%0WJoM@9s$";
 											<tr>
 												<td><?php echo $postdate ?></td>
 												<td><a href="#"><?php echo $row["title"] ?></a></td>
+												<td><a href="#"><?php echo showCatName($row["catid"]) ?></a></td>
 												<td><a href="?editpost=<?php echo $row["id"] ?>"><i class="fa fa-edit"></i> Edit</a></td>
 												<td><a href="?deletepost=<?php echo $row["id"] ?>&title=<?php echo $row["title"] ?>"><i class="fa fa-trash"></i> Delete</a></td>
 											</tr>

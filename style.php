@@ -2,16 +2,17 @@
 	/* SCROLLBAR STYLING */
 	/* width */
 	::-webkit-scrollbar {
-		width: 5px;
-		height: 5px;
+		width: 6px;
+		height: 3px;
 	}
 	/* Track */
 	::-webkit-scrollbar-track {
-		background: white; 
+		background: black; 
 	}
 	/* Handle */
 	::-webkit-scrollbar-thumb {
 		background: <?php echo $maincolor ?>; 
+		border-radius: 20px;
 	}
 	/* Handle on hover */
 	::-webkit-scrollbar-thumb:hover {
@@ -238,13 +239,33 @@
 	}
 	
 	.gridcontainer{
-		display: flex;
-		flex-wrap: wrap;
-		flex-direction: row;
-		justify-content: center;
-		
+		overflow: auto;
+		white-space: nowrap;
 	}
+	
+	/* SCROLLBAR STYLING */
+	/* width */
+	.gridcontainer::-webkit-scrollbar {
+		width: 10px;
+		height: 10px;
+	}
+	/* Track */
+	.gridcontainer::-webkit-scrollbar-track {
+		background: black; 
+	}
+	/* Handle */
+	.gridcontainer::-webkit-scrollbar-thumb {
+		background: #424242; 
+		border-radius: 20px;
+	}
+	/* Handle on hover */
+	.gridcontainer::-webkit-scrollbar-thumb:hover {
+		background: <?php echo $maincolor ?>; 
+	}
+
+	
 	.filmblock{
+		display: inline-block;
 		width: 150px;
 		height: 200px;
 		padding: 5px;
@@ -262,6 +283,49 @@
 	.filmblock:hover{
 		border: 1px solid <?php echo $maincolor ?>;
 		transition: border .5s;
+	}
+	
+	
+	
+	.hiddeninmobile{
+		display: table-cell;
+	}
+	
+	.firstthreecontainer{
+		padding-left: 60px; padding-right: 60px;
+	}
+	
+	/* mobile view */
+	@media (max-width: 720px){
+		.footerlink{
+			display: block;
+			padding: 20px;
+			width: 100%;
+		}
+		
+		.smallinmobile{
+			font-size: 10px;
+		}
+		
+		.flblock{
+			display: block;
+			box-sizing: border-box;
+			width: 100%;
+			max-width: 720px;
+		}
+		
+		.hiddeninmobile{
+			display: none;
+		}
+		
+		.firstthreecontainer{
+			padding-left: 0px; padding-right: 0px;
+		}
+		
+		.firstthreeblock{
+			margin: 10px;
+		}
+		
 	}
 	
 </style>

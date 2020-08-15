@@ -1,5 +1,12 @@
 <?php
 
+function showCatName($id){
+	global $connection;
+	global $tablecategories;
+	$sql = "SELECT * FROM $tablecategories WHERE id = $id";
+	return mysqli_fetch_assoc(mysqli_query($connection, $sql))["category"];
+}
+
 function getRandomNumbers(){
     return substr(str_shuffle(str_repeat("0123456789", 5)), 0, 10);
 }

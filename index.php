@@ -38,7 +38,7 @@ include("functions.php");
 				<div><i class="fa fa-search"></i></div>
 			</div>
 		</div>
-		<div class="section" style="padding-left: 60px; padding-right: 60px;">
+		<div class="section firstthreecontainer">
 			<div id="firstthree">
 				<?php
 				$sql = "SELECT * FROM $tableposts ORDER BY id DESC LIMIT 3";
@@ -58,11 +58,11 @@ include("functions.php");
 						<div class="firstthreeblock" style="background: url(<?php echo $baseurl . $imagefile ?>) no-repeat center center; background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;">
 							<a href="?post=<?php echo $row["postid"] ?>">
 								<div style="display: table; width: 100%; height: 100%; background-color: rgba(0,0,0,.5); padding: 40px; box-sizing: border-box; border-radius: 20px;">
-									<div style="display: table-cell; width: 75%;">
+									<div class="smallinmobile" style="display: table-cell; width: 75%;">
 										<h2><?php echo shorten_text($row["title"], 20, ' ...', true) ?></h2>
 										<p><?php echo shorten_text($row["content"], 75, ' ...', true) ?></p>
 									</div>
-									<div style="display: table-cell; vertical-align: middle; width: 25%; text-align: center;">
+									<div class="hiddeninmobile" style="vertical-align: middle; width: 25%; text-align: center;">
 										<div class="morebutton">MORE <i class="fa fa-chevron-right" style="width: 30px;"></i></div>
 									</div>
 								</div>
@@ -89,7 +89,7 @@ include("functions.php");
 					<div class="section">
 						<div style="border-bottom: 1px solid #424242; padding-bottom: 20px;">
 							<div style="display: inline-block;"><h1 style="font-size: 21px;"><i class="fa fa-tag" style="color: <?php echo $maincolor ?>;"></i> <?php echo $category ?></h1></div>
-							<div style="display: inline-block; float: right; margin-top: 8px; color: <?php echo $maincolor ?>;"><a href="?category=<?php echo $category ?>">More <i class="fa fa-plus-circle"></i></a></div>
+							<div style="display: inline-block; float: right; margin-top: 8px; color: <?php echo $maincolor ?>;"><a href="?category=<?php echo urlencode($category) ?>">More <i class="fa fa-plus-circle"></i></a></div>
 						</div>
 					</div>
 					<div class="section gridcontainer">
