@@ -115,6 +115,10 @@
 		margin: 5px;
 	}
 	
+	.categoryblock:hover{
+		background-color: white;
+	}
+	
 	table {
 		border-collapse: collapse;
 		width: 100%;
@@ -160,6 +164,26 @@
 		box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.75);
 		
 		z-index: 100;
+	}
+	
+	.searchbutton{
+		cursor: pointer;
+	}
+	
+	.searchbutton:hover{
+		color: <?php echo $maincolor ?>;
+	}
+	
+	.moreoncat:hover{
+		color: white;
+	}
+	
+	.catseparator{
+		border-bottom: 1px solid #424242; padding-bottom: 14px;
+	}
+	
+	.catseparator:hover{
+		border-bottom: 1px solid <?php echo $maincolor ?>;
 	}
 	
 	.section{
@@ -243,6 +267,14 @@
 		white-space: nowrap;
 	}
 	
+	.gridcontainerunscrollable{
+		display: flex;
+		flex-wrap: wrap;
+		flex-direction: row;
+		justify-content: center;
+		
+	}
+	
 	/* SCROLLBAR STYLING */
 	/* width */
 	.gridcontainer::-webkit-scrollbar {
@@ -255,12 +287,12 @@
 	}
 	/* Handle */
 	.gridcontainer::-webkit-scrollbar-thumb {
-		background: #424242; 
 		border-radius: 20px;
+		background: <?php echo $maincolor ?>; 
 	}
 	/* Handle on hover */
 	.gridcontainer::-webkit-scrollbar-thumb:hover {
-		background: <?php echo $maincolor ?>; 
+		background: <?php echo $secondcolor ?>; 
 	}
 
 	
@@ -295,8 +327,113 @@
 		padding-left: 60px; padding-right: 60px;
 	}
 	
+	.posttableblock{
+		display: table; width: 100%;
+	}
+	
+	.postcontent{
+		display: table-cell;
+		padding-right: 14px;
+	}
+	
+	.randomvids{
+		display: table-cell;
+		width: 350px;
+		vertical-align: top;
+	}
+	
+	#webvideo{
+		width: 100%;
+		height: 512px;
+		background-color: black;
+		outline: none;
+		border-radius: 14px;
+		
+		-webkit-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.75);
+		-moz-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.75);
+		box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.75);
+		
+	}
+	
+	.randomvidblock{
+		display: table;
+		width: 350px;
+		padding: 14px;
+		transition: background-color .5s;
+		border-bottom-left-radius: 20px;
+		border-top-left-radius: 20px;
+		
+	}
+	
+	.randomvidblock:hover{
+		background-color: black;
+		transition: background-color .5s;
+		
+	}
+	
+	.lilimage{
+		display: table-cell;
+		width: 128px;
+		border-radius: 14px;
+	}
+	
+	.lildescr{
+		display: table-cell;
+	}
+	
+	.shorttext{
+		display: block;
+		width: 200px;
+		padding-left: 14px;
+		box-sizing: border-box;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+	
+	#searchui{
+		display: none;
+		position: fixed; 
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background-color: rgba(0,0,0,.5);
+		backdrop-filter: blur(15px);
+		-webkit-backdrop-filter: blur(15px);
+	}
+	
+	.sinputcontainer{
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-top: -50px;
+		margin-left: -150px;
+		width: 300px;
+		height: 100px;
+		text-align: center;
+	}
+	
+	#searchinput{
+		border-radius: 25px;
+		outline: none;
+		border: 3px solid <?php echo $maincolor ?>;
+	}
+	
+	.smallinmobile{
+		display: table-cell;
+	}
+	
+	.w75{
+		width: 75%;
+	}
+	
+	.w25{
+		width: 25%;
+	}
+	
 	/* mobile view */
-	@media (max-width: 720px){
+	@media (max-width: 800px){
 		.footerlink{
 			display: block;
 			padding: 20px;
@@ -305,6 +442,18 @@
 		
 		.smallinmobile{
 			font-size: 10px;
+			display: block;
+			width: 100%;
+			text-align: center;
+		}
+		
+		.morebutton{
+			width: 100px;
+			padding: 10px;
+			background-color: <?php echo $maincolor ?>;
+			border: 1px solid black;
+			color: black;
+			margin: 0 auto;
 		}
 		
 		.flblock{
@@ -320,10 +469,52 @@
 		
 		.firstthreecontainer{
 			padding-left: 0px; padding-right: 0px;
+			margin-bottom: -40px;
+			margin-top: -20px;
 		}
 		
 		.firstthreeblock{
 			margin: 10px;
+		}
+		
+		.posttableblock{
+			display: block;
+		}
+		
+		.postcontent{
+			display: block;
+		}
+		
+		.randomvids{
+			display: table;
+			width: 100%;
+			margin-top: 50px;
+		}
+		
+		.randomvidblock{
+			display: table;
+			width: 100%;
+			padding: 14px;
+			transition: background-color .5s;
+		}
+		
+		.randomvidblock:hover{
+			background-color: black;
+			transition: background-color .5s;
+		}
+		
+		.lilimage{
+			display: table-cell;
+			height: 92px;
+			width: 128px;
+		}
+		
+		.lildescr{
+			display: table-cell;
+		}
+		
+		#webvideo{
+			height: 256px;
 		}
 		
 	}

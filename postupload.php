@@ -65,11 +65,11 @@ if(isset($_POST["newposttitle"])){
 			}
 		}
 			
-		mysqli_query($connection, "INSERT INTO $tableposts (postid, catid, title, content, picture, video, time) VALUES ('$postid', $catid, '$newposttitle', '$newpostcontent', '$newpicture', '$newvideo', '$currenttime')");
+		mysqli_query($connection, "INSERT INTO $tableposts (postid, catid, title, content, picture, video, time, views) VALUES ('$postid', $catid, '$newposttitle', '$newpostcontent', '$newpicture', '$newvideo', '$currenttime', 0)");
 		
 		?>
 		<h3>Congratulation!</h3>
-		<p>New post has been published. Click <a class="textlink" href="#">here</a> to view it.</p>
+		<p>New post has been published. Click <a class="textlink" href="index.php?post=<?php echo $postid ?>">here</a> to view it.</p>
 		<?php
 	}else{
 		?>

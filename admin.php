@@ -1,6 +1,13 @@
 <?php
 //Developed by https://webappdev.my.id/
 
+//TASK LIST
+/*
+- Change logo feature
+- Change favicon feature
+- Language option, and complete localization
+*/
+
 session_start();
 include("config.php");
 include("functions.php");
@@ -21,6 +28,8 @@ $password = "%0WJoM@9s$";
         <meta http-equiv="Expires" content="0" />
         <meta http-equiv="x-ua-compatible" content="ie=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+		<link rel="icon" href="favicon.ico" type="image/x-icon">
 		<script
           src="https://code.jquery.com/jquery-3.4.1.min.js"
           integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
@@ -34,6 +43,7 @@ $password = "%0WJoM@9s$";
 			tinymce.init({ selector : 'textarea' , plugins : 'directionality, code', toolbar : 'ltr rtl, code', relative_urls: false, remove_script_host : false, });
 		</script>
 		<script src="jquery.form.js"></script>
+		<script src="jscolor.js"></script>
 		<?php include("style.php"); ?>
 		<style>
 			body{
@@ -181,6 +191,7 @@ $password = "%0WJoM@9s$";
 									echo "<div class='alert'>One category removed.</div>";
 								}
 								
+								//update category
 								if(isset($_GET["updatecategory"])){
 									?>
 									<h3><a href="?categories"><i class="fa fa-arrow-left"></i> Back</a></h3>
@@ -236,10 +247,12 @@ $password = "%0WJoM@9s$";
 									$websitetitle = mysqli_real_escape_string($connection, $_POST["websitetitle"]);
 									$maincolor = mysqli_real_escape_string($connection, $_POST["maincolor"]);
 									$secondcolor = mysqli_real_escape_string($connection, $_POST["secondcolor"]);
+									$about = mysqli_real_escape_string($connection, $_POST["about"]);
 									$baseurl = mysqli_real_escape_string($connection, $_POST["baseurl"]);
 									mysqli_query($connection, "UPDATE $tableconfig SET value = '$websitetitle' WHERE config = 'websitetitle'");
 									mysqli_query($connection, "UPDATE $tableconfig SET value = '$maincolor' WHERE config = 'maincolor'");
 									mysqli_query($connection, "UPDATE $tableconfig SET value = '$secondcolor' WHERE config = 'secondcolor'");
+									mysqli_query($connection, "UPDATE $tableconfig SET value = '$about' WHERE config = 'about'");
 									mysqli_query($connection, "UPDATE $tableconfig SET value = '$baseurl' WHERE config = 'baseurl'");
 									echo "<div class='alert'>Settings updated!</div>";
 								}
@@ -259,13 +272,20 @@ $password = "%0WJoM@9s$";
 										case "maincolor" :
 											?>
 											<label><i class="fa fa-paint-brush"></i> Main Color</label>
-											<input placeholder="Main Color" name="maincolor" value="<?php echo $row["value"] ?>">
+											<input placeholder="Main Color" name="maincolor" value="<?php echo $row["value"] ?>" data-jscolor="">
 											<?php
 											break;
 										case "secondcolor" :
 											?>
 											<label><i class="fa fa-paint-brush"></i> Secondary Color</label>
-											<input placeholder="Secondary Color" name="secondcolor" value="<?php echo $row["value"] ?>">
+											<input placeholder="Secondary Color" name="secondcolor" value="<?php echo $row["value"] ?>" data-jscolor="">
+											<?php
+											break;
+										case "about" :
+											?>
+											<label><i class="fa fa-info"></i> About</label>
+											<textarea placeholder="About" name="about"><?php echo $row["value"] ?></textarea>
+											<br>
 											<?php
 											break;
 										case "baseurl" :
@@ -286,61 +306,92 @@ $password = "%0WJoM@9s$";
 								
 								$id = mysqli_real_escape_string($connection, $_GET["editpost"]);
 								
-								if(isset($_POST["editposttitle"])){
-									$posttitle = mysqli_real_escape_string($connection, $_POST["editposttitle"]);
-									$catid = mysqli_real_escape_string($connection, $_POST["editcatid"]);
-									$content = mysqli_real_escape_string($connection, $_POST["editpostcontent"]);
-									
-									if($posttitle != "" && $content != ""){
-										mysqli_query($connection, "UPDATE $tableposts SET title = '$posttitle', catid = $catid, content = '$content' WHERE id = $id");
-										echo "<div class='alert'>Post successfully updated.</div>";
-									}
-									
-								}
-								
-								
 								$sql = "SELECT * FROM $tableposts WHERE id = $id";
 								$result = mysqli_query($connection, $sql);
 								if(mysqli_num_rows($result) > 0){
 									$row = mysqli_fetch_assoc($result);
 									?>
-									<h1>Edit post</h1>
-									<form method="post">
-										<label><i class="fa fa-edit"></i> Title</label>
-										<input name="editposttitle" placeholder="Title" value="<?php echo $row["title"] ?>">
-										<label><i class="fa fa-tag"></i> Category</label>
-										
-										<select name="editcatid">
-											<?php
-											$catsql = "SELECT * FROM $tablecategories ORDER BY category ASC";
-											$catresult = mysqli_query($connection, $catsql);
-											if(mysqli_num_rows($catresult) > 0){
-												while($catrow = mysqli_fetch_assoc($catresult)){
-													if($catrow["id"] == $row["catid"]){
-														?>
-														<option value="<?php echo $catrow["id"] ?>" selected="selected"><?php echo $catrow["category"] ?></option>
-														<?php
-													}else{
-														?>
-														<option value="<?php echo $catrow["id"] ?>"><?php echo $catrow["category"] ?></option>
-														<?php
+									
+									<div class="postform">
+										<h1>Edit post</h1>
+										<form action="postupdate.php" method="post" enctype="multipart/form-data">
+											<label><i class="fa fa-edit"></i> Title</label>
+											<input name="editposttitle" placeholder="Title" value="<?php echo $row["title"] ?>">
+											<label><i class="fa fa-tag"></i> Category</label>
+											
+											<select name="editcatid">
+												<?php
+												$catsql = "SELECT * FROM $tablecategories ORDER BY category ASC";
+												$catresult = mysqli_query($connection, $catsql);
+												if(mysqli_num_rows($catresult) > 0){
+													while($catrow = mysqli_fetch_assoc($catresult)){
+														if($catrow["id"] == $row["catid"]){
+															?>
+															<option value="<?php echo $catrow["id"] ?>" selected="selected"><?php echo $catrow["category"] ?></option>
+															<?php
+														}else{
+															?>
+															<option value="<?php echo $catrow["id"] ?>"><?php echo $catrow["category"] ?></option>
+															<?php
+														}
 													}
 												}
-											}
-											if($row["catid"] == 0){
+												if($row["catid"] == 0){
+													?>
+													<option value="0" selected="selected">Uncategorized</option>
+													<?php
+												}
 												?>
-												<option value="0" selected="selected">Uncategorized</option>
-												<?php
+											</select>
+											
+											<label><i class="fa fa-file"></i> Content</label>
+											<textarea name="editpostcontent" style="height: 250px;"><?php echo $row["content"] ?></textarea>
+											<br><br>
+											<label><i class="fa fa-image"></i> Image File</label>
+											<input class="fileinput" name="newpicture" type="file" accept="image/jpeg, image/png">
+											<label><i class="fa fa-film"></i> Video File</label>
+											<input class="fileinput" name="newvideo" type="file" accept="video/mp4">
+											<br>
+											<input name="id" value="<?php echo $row["id"] ?>" style="display: none;">
+											<input type="submit" value="Update" class="submitbutton">
+										</form>
+									</div>
+									<div class="progress" style="display: none">
+									<div id="upploadprogresstitle">
+										<h1>Upload progress <span class="percent">0%</span></h1>
+										<div class="bar"></div>
+									</div>
+									<div id="status" style="margin-top: 30px;"></div>
+								</div>
+								
+								<script>
+									$(function() {
+
+										var bar = $('.bar');
+										var percent = $('.percent');
+										var status = $('#status');
+
+										$('form').ajaxForm({
+											beforeSend: function() {
+												status.empty();
+												var percentVal = '0%';
+												bar.width(percentVal);
+												percent.html(percentVal);
+												$(".progress").slideDown();
+												$(".postform").slideUp();
+											},
+											uploadProgress: function(event, position, total, percentComplete) {
+												var percentVal = percentComplete + '%';
+												bar.width(percentVal);
+												percent.html(percentVal);
+											},
+											complete: function(xhr) {
+												status.html(xhr.responseText);
 											}
-											?>
-										</select>
-										
-										<label><i class="fa fa-file"></i> Content</label>
-										<textarea name="editpostcontent" style="height: 250px;"><?php echo $row["content"] ?></textarea>
-										<br><br>
-										<input type="submit" value="Update" class="submitbutton">
-									</form>
-									<?php
+										});
+									}); 
+								</script>
+								<?php
 								}
 							}
 							//home
@@ -379,36 +430,47 @@ $password = "%0WJoM@9s$";
 								
 								$sql = "SELECT * FROM $tableposts ORDER BY id DESC";
 								$result = mysqli_query($connection, $sql);
-								if(mysqli_num_rows($result) == 0){
-									echo "<p>There is no post published.</p>";
-								}else{
-									?>
-									<h3><i class="fa fa-file"></i> Published Posts</h3>
-									<table style="width: 100%">
-										<tr>
-											<th style="width: 100px;">Date</th>
-											<th>Title</th>
-											<th>Category</th>
-											<th style="width: 50px;">Edit</th>
-											<th style="width: 50px;">Delete</th>
-										</tr>
-										<?php
-										while($row = mysqli_fetch_assoc($result)){
-											$mil = $row["time"];
-											$seconds = $mil / 1000;
-											$postdate = date("d-m-Y", $seconds);
-											?>
+								if($result){
+									if(mysqli_num_rows($result) == 0){
+										echo "<p>There is no post published.</p>";
+									}else{
+										?>
+										<h3><i class="fa fa-file"></i> Published Posts</h3>
+										<table style="width: 100%">
 											<tr>
-												<td><?php echo $postdate ?></td>
-												<td><a href="#"><?php echo $row["title"] ?></a></td>
-												<td><a href="#"><?php echo showCatName($row["catid"]) ?></a></td>
-												<td><a href="?editpost=<?php echo $row["id"] ?>"><i class="fa fa-edit"></i> Edit</a></td>
-												<td><a href="?deletepost=<?php echo $row["id"] ?>&title=<?php echo $row["title"] ?>"><i class="fa fa-trash"></i> Delete</a></td>
+												<th style="width: 100px;">Date</th>
+												<th>Title</th>
+												<th>Category</th>
+												<th>Views</th>
+												<th style="width: 50px;">Edit</th>
+												<th style="width: 50px;">Delete</th>
 											</tr>
 											<?php
-										}
-										?>
-									</table>
+											while($row = mysqli_fetch_assoc($result)){
+												$mil = $row["time"];
+												$seconds = $mil / 1000;
+												$postdate = date("d-m-Y", $seconds);
+												?>
+												<tr>
+													<td><?php echo $postdate ?></td>
+													<td><i class="fa fa-link"></i> <a href="index.php?post=<?php echo $row["postid"] ?>" target="_blank"><?php echo $row["title"] ?></a></td>
+													<td><?php echo showCatName($row["catid"]) ?></td>
+													<td><?php echo $row["views"] ?></td>
+													<td><a href="?editpost=<?php echo $row["id"] ?>"><i class="fa fa-edit"></i> Edit</a></td>
+													<td><a href="?deletepost=<?php echo $row["id"] ?>&title=<?php echo $row["title"] ?>"><i class="fa fa-trash"></i> Delete</a></td>
+												</tr>
+												<?php
+											}
+											?>
+										</table>
+										<?php
+									}
+								}else{
+									?>
+									<script>
+										alert("WELCOME!\nClick OK to start.\nIf this message appears again, please check that you have correct database connection.")
+										location.reload()
+									</script>
 									<?php
 								}
 							}
