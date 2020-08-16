@@ -27,6 +27,10 @@
 	p{
 		margin-bottom: 15px;
 	}
+	
+	div{
+		outline: none;
+	}
 
 	body{
 		padding: 0px;
@@ -94,6 +98,8 @@
 	label{
 		display: block;
 		margin-bottom: 10px;
+		font-size: 19px;
+		margin-top: 30px;
 	}
 	
 	.alert{

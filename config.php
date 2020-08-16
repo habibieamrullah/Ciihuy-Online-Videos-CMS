@@ -2,13 +2,9 @@
 
 //Database connection
 $host = "localhost";
-$databaseprefix = "ikmaltv_";
+$databaseprefix = "ciihuyvideos_";
 
-$databasename = "admin_ikdb";
-
-//$dbuser = "admin_ikuser";
-//$dbpassword = "ikmaltv*123#yahaidar";
-
+$databasename = "admin_db";
 $dbuser = "root";
 $dbpassword = "";
 
@@ -53,6 +49,8 @@ $maincolor = "#ffae00";
 $secondcolor = "#ffc446";
 $about = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 $baseurl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+$language = "en";
+$logo = "";
 $baseurl = str_replace("index.php", "", $baseurl);
 
 //Generating default website config
@@ -66,6 +64,8 @@ if(mysqli_num_rows($result) == 0){
 	$sql .= "INSERT INTO $tableconfig (config, value) VALUES ('maincolor', '$maincolor');";
 	$sql .= "INSERT INTO $tableconfig (config, value) VALUES ('secondcolor', '$secondcolor');";
 	$sql .= "INSERT INTO $tableconfig (config, value) VALUES ('about', '$about');";
+	$sql .= "INSERT INTO $tableconfig (config, value) VALUES ('language', '$language');";
+	$sql .= "INSERT INTO $tableconfig (config, value) VALUES ('logo', '$logo');";
 	$sql .= "INSERT INTO $tableconfig (config, value) VALUES ('baseurl', '$baseurl');";
 	
 	mysqli_multi_query($connection, $sql);
@@ -85,8 +85,14 @@ if(mysqli_num_rows($result) == 0){
 			case "about" :
 				$about = $row["value"];
 				break;
+			case "language" :
+				$language = $row["value"];
+				break;
 			case "baseurl" :
 				$baseurl = $row["value"];
+				break;
+			case "logo" :
+				$logo = $row["value"];
 				break;
 		}
 	}

@@ -69,7 +69,7 @@ if(isset($_POST["newposttitle"])){
 		
 		?>
 		<h3>Congratulation!</h3>
-		<p>New post has been published. Click <a class="textlink" href="index.php?post=<?php echo $postid ?>">here</a> to view it.</p>
+		<p>New post has been published. Click <a class="textlink" href="index.php?post=<?php echo $postid ?>" target="_blank">here</a> to view it.</p>
 		<?php
 	}else{
 		?>

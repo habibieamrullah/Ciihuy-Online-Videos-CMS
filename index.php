@@ -3,13 +3,38 @@
 
 include("config.php");
 include("functions.php");
+include("uilang.php");
 
 ?>
 
 <!DOCTYPE html>
 <html>
 	<head>
-		<title><?php echo $websitetitle ?></title>
+		
+		<?php
+		
+		if(isset($_GET["post"])){
+			$postid = mysqli_real_escape_string($connection, $_GET["post"]);
+			$sql = "SELECT * FROM $tableposts WHERE postid = '$postid'";
+			$result = mysqli_query($connection, $sql);
+			if($result){
+				$title = shorten_text(mysqli_fetch_assoc($result)["title"], 40, ' ...', false) . " - " . $websitetitle;
+			}
+			?>
+			
+			<?php
+		}else if(isset($_GET["category"])){
+			$title = urldecode($_GET["category"]) . " - " . $websitetitle;
+		}else if(isset($_GET["search"])){
+			$title = urldecode($_GET["search"]) . " - " . $websitetitle;
+		}else{
+			$title = $websitetitle;
+		}
+		
+		?>
+		
+		<title><?php echo $title ?></title>
+		
 		<meta charset="utf-8">
         <meta http-equiv="Pragma" content="no-cache" />
         <meta http-equiv="Expires" content="0" />
@@ -33,7 +58,12 @@ include("functions.php");
 	<body>
 		<div id="header">
 			<div class="inlinecenterblock" style="padding: 10px; padding-top: 15px; padding-left: 20px; padding-right: 0px;">
-				<a href="index.php"><img src="<?php echo $baseurl ?>images/logo.png" style="height: 48px;"></a>
+				<?php
+				$currentlogo = "images/logo.png";
+				if($logo != "")
+					$currentlogo = "pictures/" . $logo;
+				?>
+				<a href="index.php"><img src="<?php echo $baseurl . $currentlogo ?>" style="height: 48px;"></a>
 			</div>
 			<div class="inlinecenterblock" style="color: <?php echo $maincolor ?>; font-weight: bold;">
 				<h1 style="margin: 0px; font-size: 25px;"><a href="index.php"><?php echo $websitetitle ?></a></h1>
@@ -47,71 +77,22 @@ include("functions.php");
 		//search
 		if(isset($_GET["search"])){
 			$q = mysqli_real_escape_string($connection, urldecode($_GET["search"]));
-			$sql = "SELECT * FROM $tableposts WHERE title LIKE '%$q%' OR content LIKE '%$q%' ORDER BY id DESC";
-			$result = mysqli_query($connection, $sql);
-			?>
-			<div class="section">
-				<div class="catseparator">
-					<div style="display: inline-block;"><h1 style="font-size: 21px;"><i class="fa fa-search" style="color: <?php echo $maincolor ?>;"></i> Search result for "<?php echo $q ?>"</h1></div>
-				</div>
-			</div>
-			<?php
-			if(mysqli_num_rows($result) > 0){
-				//result found
+			if($q != ""){
+				$sql = "SELECT * FROM $tableposts WHERE title LIKE '%$q%' OR content LIKE '%$q%' ORDER BY id DESC";
+				$result = mysqli_query($connection, $sql);
 				?>
-				<div class="section gridcontainerunscrollable">
-					<?php
-					while($vidrow = mysqli_fetch_assoc($result)){
-						$imagefile = $vidrow["picture"];
-						if($imagefile == ""){
-							$imagefile = "images/filmbg.jpg";
-						}else{
-							$imagefile = "pictures/" . $imagefile;
-						}
-
-						?>
-						<a href="?post=<?php echo $vidrow["postid"] ?>">
-							<div class="filmblock" style="background: url(<?php echo $baseurl . $imagefile ?>) no-repeat center center; background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;">
-								<div style="position: absolute; bottom: 0; left: 0; right: 0; text-align: center; background-color: rgba(0,0,0,.5); padding: 10px; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
-									<h2 style="font-size: 14px;"><?php echo shorten_text($vidrow["title"], 18, ' ...', false) ?></h2>
-								</div>
-							</div>
-						</a>
-						<?php
-
-					}
-					?>
-				</div>
-				<?php
-			}else{
-				?>
-				<div class="section gridcontainerunscrollable">
-					<p>No result found.</p>
-				</div>
-				<?php
-			}
-		}
-		
-		//category
-		else if(isset($_GET["category"])){
-			$category = urldecode(mysqli_real_escape_string($connection, $_GET["category"]));
-			$sql = "SELECT * FROM $tablecategories WHERE category = '$category'";
-			$result = mysqli_query($connection, $sql);
-			if(mysqli_num_rows($result) > 0){
-				$row = mysqli_fetch_assoc($result);
-				$catid = $row["id"];
-				$vidsql = "SELECT * FROM $tableposts WHERE catid = '$catid' ORDER BY id DESC";
-				$vidresult = mysqli_query($connection, $vidsql);
-				if(mysqli_num_rows($vidresult) > 0){
-					?>
-					<div class="section">
-						<div class="catseparator">
-							<div style="display: inline-block;"><h1 style="font-size: 21px;"><i class="fa fa-tag" style="color: <?php echo $maincolor ?>;"></i> <?php echo $category ?></h1></div>
-						</div>
+				<div class="section">
+					<div class="catseparator">
+						<div style="display: inline-block;"><h1 style="font-size: 21px;"><i class="fa fa-search" style="color: <?php echo $maincolor ?>;"></i> <?php echo uilang("Search result for") ?> "<?php echo $q ?>"</h1></div>
 					</div>
+				</div>
+				<?php
+				if(mysqli_num_rows($result) > 0){
+					//result found
+					?>
 					<div class="section gridcontainerunscrollable">
 						<?php
-						while($vidrow = mysqli_fetch_assoc($vidresult)){
+						while($vidrow = mysqli_fetch_assoc($result)){
 							$imagefile = $vidrow["picture"];
 							if($imagefile == ""){
 								$imagefile = "images/filmbg.jpg";
@@ -133,6 +114,59 @@ include("functions.php");
 						?>
 					</div>
 					<?php
+				}else{
+					?>
+					<div class="section gridcontainerunscrollable">
+						<p><?php echo uilang("Nothing found") ?>.</p>
+					</div>
+					<?php
+				}
+			}
+		}
+		
+		//category
+		else if(isset($_GET["category"])){
+			$category = urldecode(mysqli_real_escape_string($connection, $_GET["category"]));
+			if($category != ""){
+				$sql = "SELECT * FROM $tablecategories WHERE category = '$category'";
+				$result = mysqli_query($connection, $sql);
+				if(mysqli_num_rows($result) > 0){
+					$row = mysqli_fetch_assoc($result);
+					$catid = $row["id"];
+					$vidsql = "SELECT * FROM $tableposts WHERE catid = '$catid' ORDER BY id DESC";
+					$vidresult = mysqli_query($connection, $vidsql);
+					if(mysqli_num_rows($vidresult) > 0){
+						?>
+						<div class="section">
+							<div class="catseparator">
+								<div style="display: inline-block;"><h1 style="font-size: 21px;"><i class="fa fa-tag" style="color: <?php echo $maincolor ?>;"></i> <?php echo $category ?></h1></div>
+							</div>
+						</div>
+						<div class="section gridcontainerunscrollable">
+							<?php
+							while($vidrow = mysqli_fetch_assoc($vidresult)){
+								$imagefile = $vidrow["picture"];
+								if($imagefile == ""){
+									$imagefile = "images/filmbg.jpg";
+								}else{
+									$imagefile = "pictures/" . $imagefile;
+								}
+
+								?>
+								<a href="?post=<?php echo $vidrow["postid"] ?>">
+									<div class="filmblock" style="background: url(<?php echo $baseurl . $imagefile ?>) no-repeat center center; background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;">
+										<div style="position: absolute; bottom: 0; left: 0; right: 0; text-align: center; background-color: rgba(0,0,0,.5); padding: 10px; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
+											<h2 style="font-size: 14px;"><?php echo shorten_text($vidrow["title"], 18, ' ...', false) ?></h2>
+										</div>
+									</div>
+								</a>
+								<?php
+
+							}
+							?>
+						</div>
+						<?php
+					}
 				}
 			}
 		}
@@ -144,67 +178,69 @@ include("functions.php");
 					<div class="postcontent">
 						<?php
 						$postid = mysqli_real_escape_string($connection, $_GET["post"]);
-						$sql = "SELECT * FROM  $tableposts WHERE postid = '$postid'";
-						$result = mysqli_query($connection, $sql);
-						if(mysqli_num_rows($result) == 0){
-							echo "<p>Nothing found</p>";
-						}else{
-							$row = mysqli_fetch_assoc($result);
-							
-							$picture = $row["picture"];
-							$video = $row["video"];
-							
-							if($picture != ""){
-								$picture = $baseurl . "pictures/" . $picture;
-							}
-							
-							if($video != ""){
-								$video = $baseurl . "videos/" . $video;
+						if($postid != ""){
+							$sql = "SELECT * FROM  $tableposts WHERE postid = '$postid'";
+							$result = mysqli_query($connection, $sql);
+							if(mysqli_num_rows($result) == 0){
+								echo "<p>" .uilang("Nothing found"). "</p>";
+							}else{
+								$row = mysqli_fetch_assoc($result);
+								
+								$picture = $row["picture"];
+								$video = $row["video"];
+								
+								if($picture != ""){
+									$picture = $baseurl . "pictures/" . $picture;
+								}
+								
+								if($video != ""){
+									$video = $baseurl . "videos/" . $video;
+									?>
+									<video id="webvideo" poster="<?php echo $picture ?>" controls>
+										<source src="<?php echo $video ?>" type="video/mp4">
+										Your browser does not support the video tag.
+									</video>
+									<?php
+								}
+								
+								$mil = $row["time"];
+								$seconds = $mil / 1000;
+								$postdate = date("d-m-Y", $seconds);
 								?>
-								<video id="webvideo" poster="<?php echo $picture ?>" controls>
-									<source src="<?php echo $video ?>" type="video/mp4">
-									Your browser does not support the video tag.
-                                </video>
+								
+								<h1><?php echo $row["title"] ?></h1>
+								<h5 style="color: <?php echo $maincolor ?>"><i class="fa fa-calendar" style="width: 15px;"></i> <?php echo $postdate ?> <i class="fa fa-eye" style="margin-left: 15px; width: 15px;"></i> <?php echo $row["views"] ?> <a href="?category=<?php echo urlencode(showcatname($row["catid"])) ?>"><i class="fa fa-tag" style="margin-left: 15px; width: 15px;"></i> <?php echo showCatName($row["catid"]) ?></a></h5>
+								<div>
+									<?php echo $row["content"] ?>
+								</div>
+								<div style="font-size: 12px;">
+								<?php
+								showSharer($baseurl . "?post/" . $row["postid"], $websitetitle);
+								?>
+								</div>
+								<br><br>
+								<div id="fb-root"></div>
+								<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v5.0&amp;appId=569420283509636&amp;autoLogAppEvents=1"></script>
+								 
+								<div class="fb-comments" data-href="<?php echo $baseurl ?>?post/<?php echo $row["postid"] ?>" data-width="100%" style="width: 100%; box-sizing: border-box; background-color: white; border-radius: 20px; padding: 14px;" data-numposts="14"></div>
+								
+								<script>
+									function viewedThis(postid){
+										$.post("<?php echo $baseurl ?>viewcounter.php", {
+											postid : postid
+										}, function(data){
+											console.log(data)
+										})
+									}
+									viewedThis("<?php echo $postid ?>")
+								</script>
 								<?php
 							}
-							
-							$mil = $row["time"];
-							$seconds = $mil / 1000;
-							$postdate = date("d-m-Y", $seconds);
-							?>
-							
-							<h1><?php echo $row["title"] ?></h1>
-							<h5 style="color: <?php echo $maincolor ?>"><i class="fa fa-calendar" style="width: 15px;"></i> <?php echo $postdate ?> <i class="fa fa-eye" style="margin-left: 15px; width: 15px;"></i> <?php echo $row["views"] ?> <a href="?category=<?php echo urlencode(showcatname($row["catid"])) ?>"><i class="fa fa-tag" style="margin-left: 15px; width: 15px;"></i> <?php echo showCatName($row["catid"]) ?></a></h5>
-							<div>
-								<?php echo $row["content"] ?>
-							</div>
-							<div style="font-size: 12px;">
-							<?php
-							showSharer($baseurl . "?post/" . $row["postid"], $websitetitle);
-							?>
-							</div>
-							<br><br>
-							<div id="fb-root"></div>
-							<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v5.0&amp;appId=569420283509636&amp;autoLogAppEvents=1"></script>
-							 
-							<div class="fb-comments" data-href="<?php echo $baseurl ?>?post/<?php echo $row["postid"] ?>" data-width="100%" style="width: 100%; box-sizing: border-box; background-color: white; border-radius: 20px; padding: 14px;" data-numposts="14"></div>
-							
-							<script>
-								function viewedThis(postid){
-									$.post("<?php echo $baseurl ?>viewcounter.php", {
-										postid : postid
-									}, function(data){
-										console.log(data)
-									})
-								}
-								viewedThis("<?php echo $postid ?>")
-							</script>
-							<?php
 						}
 						?>
 					</div>
 					<div class="randomvids">
-						<div class="randomvidblock">You may like:</div>
+						<div class="randomvidblock"><?php echo uilang("You may like:") ?></div>
 						<?php
 						$sql = "SELECT * FROM $tableposts ORDER BY RAND() LIMIT 5";
 						$result = mysqli_query($connection, $sql);
@@ -275,7 +311,7 @@ include("functions.php");
 												<p><?php echo shorten_text($row["content"], 75, ' ...', false) ?></p>
 											</div>
 											<div class="smallinmobile w25" style="vertical-align: middle; text-align: center;">
-												<div class="morebutton">MORE <i class="fa fa-chevron-right" style="width: 30px;"></i></div>
+												<div class="morebutton"><?php echo uilang("MORE") ?> <i class="fa fa-chevron-right" style="width: 30px;"></i></div>
 											</div>
 										</div>
 									</a>
@@ -304,7 +340,7 @@ include("functions.php");
 							<div class="section">
 								<div class="catseparator">
 									<div style="display: inline-block;"><h1 style="font-size: 21px;"><i class="fa fa-tag" style="color: <?php echo $maincolor ?>;"></i> <?php echo $category ?></h1></div>
-									<div style="display: inline-block; float: right; margin-top: 8px; color: <?php echo $maincolor ?>;"><a class="moreoncat" href="?category=<?php echo urlencode($category) ?>">More <i class="fa fa-plus-circle"></i></a></div>
+									<div style="display: inline-block; float: right; margin-top: 8px; color: <?php echo $maincolor ?>;"><a class="moreoncat" href="?category=<?php echo urlencode($category) ?>"><?php echo uilang("More in") . " " . $category ?> <i class="fa fa-plus-circle"></i></a></div>
 								</div>
 							</div>
 							<div class="section gridcontainer">
@@ -344,17 +380,19 @@ include("functions.php");
 			}
 			
 		}
+		
 		?>
 		<!-- Footer -->
 		<div class="section footerlink">
 		
 			<div class="flblock">
-				<h3>About <?php echo $websitetitle ?></h3>
+				
+				<h3><?php echo uilang("About") . " " . $websitetitle ?></h3>
 				<?php echo $about ?>
 			</div>
 			
 			<div class="flblock">
-				<h3>Latest Posts</h3>
+				<h3><?php echo uilang("Recently Published") ?></h3>
 				<?php
 				$sql = "SELECT * FROM $tableposts ORDER BY id DESC LIMIT 12";
 				$result = mysqli_query($connection, $sql);
@@ -368,7 +406,7 @@ include("functions.php");
 						}
 						echo "</ul>";
 					}else{
-						echo "<p>There is no post published.</p>";
+						echo "<p>" . uilang("There is no post published") . ".</p>";
 					}
 				}
 				
@@ -376,7 +414,7 @@ include("functions.php");
 			</div>
 			
 			<div class="flblock">
-				<h3>Categories</h3>
+				<h3><?php echo uilang("Categories") ?></h3>
 				<?php
 				$sql = "SELECT * FROM $tablecategories ORDER BY category ASC";
 				$result = mysqli_query($connection, $sql);
@@ -388,7 +426,7 @@ include("functions.php");
 							<?php
 						}
 					}else{
-						echo "<p>There is no category published.</p>";
+						echo "<p>" . uilang("There is no category published.") . "</p>";
 					}
 				}
 				
@@ -406,8 +444,8 @@ include("functions.php");
 		
 		<div id="searchui">
 			<div class="sinputcontainer">
-				<h3><i class="fa fa-search"></i> Search</h3>
-				<input type="text" id="searchinput" placeholder="Type something..." onkeyup="startsearch()">
+				<h3><i class="fa fa-search"></i> <?php echo uilang("Search") ?></h3>
+				<input type="text" id="searchinput" placeholder="<?php echo uilang("Type something...") ?>" onkeyup="startsearch()">
 			</div>
 		</div>
 		

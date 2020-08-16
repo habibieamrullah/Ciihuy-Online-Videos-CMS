@@ -11,9 +11,10 @@
 session_start();
 include("config.php");
 include("functions.php");
+include("uilang.php");
 
-$username = "313ikmaltv2020";
-$password = "%0WJoM@9s$";
+$username = "admin";
+$password = "admin";
 
 
 ?>
@@ -87,28 +88,33 @@ $password = "%0WJoM@9s$";
 						<div style="display: table-cell; width: 140px; background-color: black; height:">
 							<div class="stickythingy">
 								<div style="padding: 40px;">
-									<a href="admin.php"><img src="images/logo.png" style="display: border-box; width: 100%;"></a>
+									<?php
+									$currentlogo = "images/logo.png";
+									if($logo != "")
+										$currentlogo = "pictures/" . $logo;
+									?>
+									<a href="admin.php"><img src="<?php echo $currentlogo ?>" style="display: border-box; width: 100%;"></a>
 								</div>
-								<a href="admin.php"><div class="adminleftbaritem"><i class="fa fa-home" style="width: 30px;"></i> Home</div></a>
-								<a href="?newpost"><div class="adminleftbaritem"><i class="fa fa-plus" style="width: 30px;"></i> New Post</div></a>
-								<a href="?categories"><div class="adminleftbaritem"><i class="fa fa-tag" style="width: 30px;"></i> Categories</div></a>
-								<a href="?settings"><div class="adminleftbaritem"><i class="fa fa-cogs" style="width: 30px;"></i> Settings</div></a>
-								<a href="?logout"><div class="adminleftbaritem"><i class="fa fa-sign-out" style="width: 30px;"></i> Logout</div></a>
+								<a href="admin.php"><div class="adminleftbaritem"><i class="fa fa-home" style="width: 30px;"></i> <?php echo uilang("Home") ?></div></a>
+								<a href="?newpost"><div class="adminleftbaritem"><i class="fa fa-plus" style="width: 30px;"></i> <?php echo uilang("New Post") ?></div></a>
+								<a href="?categories"><div class="adminleftbaritem"><i class="fa fa-tag" style="width: 30px;"></i> <?php echo uilang("Categories") ?></div></a>
+								<a href="?settings"><div class="adminleftbaritem"><i class="fa fa-cogs" style="width: 30px;"></i> <?php echo uilang("Settings") ?></div></a>
+								<a href="?logout"><div class="adminleftbaritem"><i class="fa fa-sign-out" style="width: 30px;"></i> <?php echo uilang("Logout") ?></div></a>
 								
-								<!--<div style="text-align: center; padding: 30px; font-size: 8px;">CMS Developed by <a target="_blank" class="textlink" href="https://webappdev.my.id/">https://webappdev.my.id/</a></div>-->
+								<div style="text-align: center; padding: 30px; font-size: 10px;">CMS <?php echo uilang("Developed by") ?> <a target="_blank" class="textlink" href="https://webappdev.my.id/">https://webappdev.my.id/</a></div>
 							</div>
 						</div>
-						<div style="display: table-cell; padding: 25px; vertical-align: top;">
+						<div style="display: table-cell; padding: 25px; vertical-align: top; border-left: 1px solid <?php echo $maincolor ?>; ">
 							<?php
 							//newpost
 							if(isset($_GET["newpost"])){
 								?>
 								<div class="postform">
-									<h1>New Post</h1>
+									<h1><?php echo uilang("New Post") ?></h1>
 									<form action="postupload.php" method="post" enctype="multipart/form-data">
-										<label><i class="fa fa-edit"></i> Title</label>
-										<input name="newposttitle" placeholder="Title">
-										<label><i class="fa fa-tag"></i> Category</label>
+										<label><i class="fa fa-edit"></i> <?php echo uilang("Title") ?></label>
+										<input name="newposttitle" placeholder="<?php echo uilang("Title") ?>">
+										<label><i class="fa fa-tag"></i> <?php echo uilang("Category") ?></label>
 										<select name="catid">
 											<?php
 											$catsql = "SELECT * FROM $tablecategories ORDER BY category ASC";
@@ -121,22 +127,22 @@ $password = "%0WJoM@9s$";
 												}
 											}
 											?>
-											<option value="0" selected="selected">Uncategorized</option>
+											<option value="0" selected="selected"><?php echo uilang("Uncategorized") ?></option>
 										</select>
-										<label><i class="fa fa-file"></i> Content</label>
+										<label><i class="fa fa-file"></i> <?php echo uilang("Content") ?></label>
 										<textarea name="newpostcontent" style="height: 250px;"></textarea>
 										<br><br>
-										<label><i class="fa fa-image"></i> Image File</label>
+										<label><i class="fa fa-image"></i> <?php echo uilang("Image File") ?></label>
 										<input class="fileinput" name="newpicture" type="file" accept="image/jpeg, image/png">
-										<label><i class="fa fa-film"></i> Video File</label>
+										<label><i class="fa fa-film"></i> <?php echo uilang("Video File") ?></label>
 										<input class="fileinput" name="newvideo" type="file" accept="video/mp4">
 										<br>
-										<input type="submit" value="Submit" class="submitbutton">
+										<input type="submit" value="<?php echo uilang("Submit") ?>" class="submitbutton">
 									</form>
 								</div>
 								<div class="progress" style="display: none">
 									<div id="upploadprogresstitle">
-										<h1>Upload progress <span class="percent">0%</span></h1>
+										<h1><?php echo uilang("Upload progress") ?> <span class="percent">0%</span></h1>
 										<div class="bar"></div>
 									</div>
 									<div id="status" style="margin-top: 30px;"></div>
@@ -175,26 +181,26 @@ $password = "%0WJoM@9s$";
 							//categories
 							else if(isset($_GET["categories"])){
 								?>
-								<h1>Categories</h1>
+								<h1><?php echo uilang("Categories") ?></h1>
 								<?php
 								if(isset($_POST["newcategory"])){
 									$newcategory = mysqli_real_escape_string($connection, $_POST["newcategory"]);
 									if($newcategory != ""){
 										mysqli_query($connection, "INSERT INTO $tablecategories (category) VALUES ('$newcategory')");
-										echo "<div class='alert'>New category has been added.</div>";
+										echo "<div class='alert'>" .uilang("New category has been added"). ".</div>";
 									}
 								}
 								
 								if(isset($_GET["deletecategory"])){
 									$id = mysqli_real_escape_string($connection, $_GET["deletecategory"]);
 									mysqli_query($connection, "DELETE FROM $tablecategories WHERE id = $id");
-									echo "<div class='alert'>One category removed.</div>";
+									echo "<div class='alert'>" .uilang("One category removed"). ".</div>";
 								}
 								
 								//update category
 								if(isset($_GET["updatecategory"])){
 									?>
-									<h3><a href="?categories"><i class="fa fa-arrow-left"></i> Back</a></h3>
+									<h3><a href="?categories"><i class="fa fa-arrow-left"></i> <?php echo uilang("Back") ?></a></h3>
 									<?php
 									$id = mysqli_real_escape_string($connection, $_GET["updatecategory"]);
 									
@@ -202,7 +208,7 @@ $password = "%0WJoM@9s$";
 										$newcatname = mysqli_real_escape_string($connection, $_POST["newcategoryupdate"]);
 										if($newcatname != ""){
 											mysqli_query($connection, "UPDATE $tablecategories SET category = '$newcatname' WHERE id = $id");
-											echo "<div class='alert'>Category updated.</div>";
+											echo "<div class='alert'>" . uilang("Category updated") . ".</div>";
 										}
 									}
 									
@@ -210,9 +216,9 @@ $password = "%0WJoM@9s$";
 									$row = mysqli_fetch_assoc(mysqli_query($connection, $sql));
 									?>
 									<form method="post">
-										<label>Enter new name for category: <?php echo $row["category"] ?></label>
-										<input type="text" placeholder="New category name" name="newcategoryupdate" value="<?php echo $row["category"] ?>">
-										<input type="submit" value="Update" class="submitbutton">
+										<label><?php echo uilang("Enter new name for category") ?>: <?php echo $row["category"] ?></label>
+										<input type="text" placeholder="<?php echo uilang("Category") ?>" name="newcategoryupdate" value="<?php echo $row["category"] ?>">
+										<input type="submit" value="<?php echo uilang("Update") ?>" class="submitbutton">
 									</form>
 									<?php
 								}else{
@@ -221,18 +227,18 @@ $password = "%0WJoM@9s$";
 									if(mysqli_num_rows($result) > 0){
 										while($row = mysqli_fetch_assoc($result)){
 											?>
-											<div class="categoryblock"><i class="fa fa-tag"></i> <?php echo $row["category"] ?> <span style="margin-left: 20px; font-size: 12px; color: #535353;"><a href="?categories&updatecategory=<?php echo $row["id"] ?>"><i class="fa fa-edit"></i> edit</a> | <a href="?categories&deletecategory=<?php echo $row["id"] ?>"><i class="fa fa-trash"></i> delete</a></span></div>
+											<div class="categoryblock"><i class="fa fa-tag"></i> <?php echo $row["category"] ?> <span style="margin-left: 20px; font-size: 12px; color: #535353;"><a href="?categories&updatecategory=<?php echo $row["id"] ?>"><i class="fa fa-edit"></i> <?php echo uilang("Edit") ?></a> | <a href="?categories&deletecategory=<?php echo $row["id"] ?>"><i class="fa fa-trash"></i> <?php echo uilang("Delete") ?></a></span></div>
 											<?php
 										}
 									}else{
-										echo "<p>No category has been added.</p>";
+										echo "<p>" .uilang("No category has been added"). ".</p>";
 									}
 									?>
 									<br><br>
 									<form method="post">
-										<label><i class="fa fa-tag"></i> New category</label>
-										<input type="text" placeholder="New category" name="newcategory">
-										<input type="submit" value="Add" class="submitbutton">
+										<label><i class="fa fa-tag"></i> <?php echo uilang("New category") ?></label>
+										<input type="text" placeholder="<?php echo uilang("New category") ?>" name="newcategory">
+										<input type="submit" value="<?php echo uilang("Submit") ?>" class="submitbutton">
 									</form>
 									<?php
 								}
@@ -241,23 +247,87 @@ $password = "%0WJoM@9s$";
 							//settings
 							else if(isset($_GET["settings"])){
 								?>
-								<h1>Settings</h1>
+								<h1><?php echo uilang("Settings") ?></h1>
 								<?php
+								
+								if(isset($_GET["removelogo"])){
+									echo "<div class='alert'>Logo has been removed.</div>";
+									mysqli_query($connection, "UPDATE $tableconfig SET value = '' WHERE config = 'logo'");
+									//delete previous media
+									if(file_exists("pictures/" . $logo))
+										unlink("pictures/" . $logo);
+								}
+								
 								if(isset($_POST["websitetitle"])){
+									
 									$websitetitle = mysqli_real_escape_string($connection, $_POST["websitetitle"]);
 									$maincolor = mysqli_real_escape_string($connection, $_POST["maincolor"]);
 									$secondcolor = mysqli_real_escape_string($connection, $_POST["secondcolor"]);
 									$about = mysqli_real_escape_string($connection, $_POST["about"]);
+									$language = mysqli_real_escape_string($connection, $_POST["language"]);
 									$baseurl = mysqli_real_escape_string($connection, $_POST["baseurl"]);
+									
 									mysqli_query($connection, "UPDATE $tableconfig SET value = '$websitetitle' WHERE config = 'websitetitle'");
 									mysqli_query($connection, "UPDATE $tableconfig SET value = '$maincolor' WHERE config = 'maincolor'");
 									mysqli_query($connection, "UPDATE $tableconfig SET value = '$secondcolor' WHERE config = 'secondcolor'");
 									mysqli_query($connection, "UPDATE $tableconfig SET value = '$about' WHERE config = 'about'");
+									mysqli_query($connection, "UPDATE $tableconfig SET value = '$language' WHERE config = 'language'");
 									mysqli_query($connection, "UPDATE $tableconfig SET value = '$baseurl' WHERE config = 'baseurl'");
-									echo "<div class='alert'>Settings updated!</div>";
+									
+									//Favicon upload
+									if(isset($_FILES["favicon"])){
+										if($_FILES["favicon"]["size"] == 0){
+											//
+										}else{
+											if($_FILES['favicon']['error'] > 0) { echo "<div class='alert'>" .uilang("Error during uploading. Try again"). "</div>"; }
+											$extsAllowed = array( 'ico' );
+											$uploadedfile = $_FILES["favicon"]["name"];
+											$extension = pathinfo($uploadedfile, PATHINFO_EXTENSION);
+											if (in_array($extension, $extsAllowed) ) { 
+												$favicon = "favicon.ico";
+												$result = move_uploaded_file($_FILES['favicon']['tmp_name'], $favicon);
+												?>
+												<div class="alert"><?php echo uilang("Icon upload is OK") ?>.</div>
+												<?php
+												
+											} else { echo "<div class='alert'>" .uilang("File is not valid. Please try again"). ".</div>"; }
+										}
+									}
+									
+									//Picture upload
+									if(isset($_FILES["newpicture"])){
+										$maxsize = 524288;
+										if($_FILES["newpicture"]["size"] == 0){
+											//
+										}else{
+											if($_FILES['newpicture']['error'] > 0) { echo "<div class='alert'>" .uilang("Error during uploading. Try again"). "</div>"; }
+											$extsAllowed = array( 'jpg', 'jpeg', 'png' );
+											$uploadedfile = $_FILES["newpicture"]["name"];
+											$extension = pathinfo($uploadedfile, PATHINFO_EXTENSION);
+											if (in_array($extension, $extsAllowed) ) { 
+												$newpicture = substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 5)), 0, 10);
+												$name = "pictures/" . $newpicture .".". $extension;
+												
+												if(($_FILES['newpicture']['size'] >= $maxsize)){
+													createThumbnail($_FILES['newpicture']['tmp_name'], "pictures/" . $newpicture .".". $extension, 512);
+												}else{
+													$result = move_uploaded_file($_FILES['newpicture']['tmp_name'], $name);
+												}
+												?>
+												<div class="alert"><?php echo uilang("Logo upload is OK") ?>.</div>
+												<?php
+												$newpicture = $newpicture .".". $extension;
+												$logo = $newpicture;
+												mysqli_query($connection, "UPDATE $tableconfig SET value = '$logo' WHERE config = 'logo'");
+												
+											} else { echo "<div class='alert'>" .uilang("File is not valid. Please try again"). ".</div>"; }
+										}
+									}
+									
+									echo "<div class='alert'>" .uilang("Settings updated!"). "</div>";
 								}
 								?>
-								<form method="post">
+								<form method="post" enctype="multipart/form-data">
 								<?php
 								$sql = "SELECT * FROM $tableconfig";
 								$result = mysqli_query($connection, $sql);
@@ -265,39 +335,85 @@ $password = "%0WJoM@9s$";
 									switch($row["config"]){
 										case "websitetitle" :
 											?>
-											<label><i class="fa fa-globe"></i> Website Title</label>
-											<input placeholder="Website Title" name="websitetitle" value="<?php echo $row["value"] ?>">
+											<label><i class="fa fa-font"></i> <?php echo uilang("Website Title") ?></label>
+											<input placeholder="<?php echo uilang("Website Title") ?>" name="websitetitle" value="<?php echo $row["value"] ?>">
 											<?php
 											break;
 										case "maincolor" :
 											?>
-											<label><i class="fa fa-paint-brush"></i> Main Color</label>
-											<input placeholder="Main Color" name="maincolor" value="<?php echo $row["value"] ?>" data-jscolor="">
+											<label><i class="fa fa-paint-brush"></i> <?php echo uilang("Main Color") ?></label>
+											<input placeholder="<?php echo uilang("Main Color") ?>" name="maincolor" value="<?php echo $row["value"] ?>" data-jscolor="">
 											<?php
 											break;
 										case "secondcolor" :
 											?>
-											<label><i class="fa fa-paint-brush"></i> Secondary Color</label>
-											<input placeholder="Secondary Color" name="secondcolor" value="<?php echo $row["value"] ?>" data-jscolor="">
+											<label><i class="fa fa-paint-brush"></i> <?php echo uilang("Secondary Color") ?></label>
+											<input placeholder="<?php echo uilang("Secondary Color") ?>" name="secondcolor" value="<?php echo $row["value"] ?>" data-jscolor="">
 											<?php
 											break;
 										case "about" :
 											?>
-											<label><i class="fa fa-info"></i> About</label>
-											<textarea placeholder="About" name="about"><?php echo $row["value"] ?></textarea>
+											<label><i class="fa fa-info"></i> <?php echo uilang("About") ?></label>
+											<textarea placeholder="<?php echo uilang("About") ?>" name="about"><?php echo $row["value"] ?></textarea>
+											<br>
+											<?php
+											break;
+										case "language" :
+											?>
+											<label><i class="fa fa-language"></i> <?php echo uilang("Language") ?></label>
+											<select name="language">
+												<?php
+												if($row["value"] == "en"){
+													?>
+													<option selected value="en">English</option>
+													<option value="id">Bahasa Indonesia</option>
+													<?php
+												}else if($row["value"] == "id"){
+													?>
+													<option value="en">English</option>
+													<option selected value="id">Bahasa Indonesia</option>
+													<?php
+												}
+												?>
+											</select>
+											<br>
+											<?php
+											break;
+										case "logo" :
+											?>
+											<label><i class="fa fa-check-circle"></i> Logo</label>
+											<?php
+											if($row["value"] == ""){
+												?>
+												<div style="display: inline-block; vertical-align: middle;">
+													<img src="images/logo.png" width="64">
+												</div>
+												<?php
+											}else{
+												?>
+												<div style="display: inline-block; text-align: center; vertical-align: middle;">
+													<img src="pictures/<?php echo $row["value"] ?>" width="64"><br>
+													<a href="?settings&removelogo" class="textlink"><i class="fa fa-trash"></i> Remove</a>
+												</div>
+												<?php
+											}
+											?>
+											<input name="newpicture" type="file" name="logo" style="display: inline-block; width: 300px; vertical-align: middle;">
 											<br>
 											<?php
 											break;
 										case "baseurl" :
 											?>
-											<label><i class="fa fa-link"></i> Base URL</label>
-											<input placeholder="Base URL" name="baseurl" value="<?php echo $row["value"] ?>">
+											<label><i class="fa fa-link"></i> <?php echo uilang("Base URL (make sure to include '/' symbol at the end)") ?></label>
+											<input placeholder="<?php echo uilang("Base URL") ?>" name="baseurl" value="<?php echo $row["value"] ?>">
 											<?php
 											break;
 									}
 								}
 								?>
-								<input class="submitbutton" type="submit" value="Save">
+								<label><i class="fa fa-globe"></i> <?php echo uilang("Website Icon (.ico file)") ?></label>
+								<input type="file" name="favicon">
+								<input class="submitbutton" type="submit" value="<?php echo uilang("Update") ?>">
 								</form>
 								<?php
 							}
@@ -313,11 +429,11 @@ $password = "%0WJoM@9s$";
 									?>
 									
 									<div class="postform">
-										<h1>Edit post</h1>
+										<h1><?php echo uilang("Edit Post") ?></h1>
 										<form action="postupdate.php" method="post" enctype="multipart/form-data">
-											<label><i class="fa fa-edit"></i> Title</label>
-											<input name="editposttitle" placeholder="Title" value="<?php echo $row["title"] ?>">
-											<label><i class="fa fa-tag"></i> Category</label>
+											<label><i class="fa fa-edit"></i> <?php echo uilang("Title") ?></label>
+											<input name="editposttitle" placeholder="<?php echo uilang("Title") ?>" value="<?php echo $row["title"] ?>">
+											<label><i class="fa fa-tag"></i> <?php echo uilang("Category") ?></label>
 											
 											<select name="editcatid">
 												<?php
@@ -338,27 +454,27 @@ $password = "%0WJoM@9s$";
 												}
 												if($row["catid"] == 0){
 													?>
-													<option value="0" selected="selected">Uncategorized</option>
+													<option value="0" selected="selected"><?php echo uilang("Uncategorized") ?></option>
 													<?php
 												}
 												?>
 											</select>
 											
-											<label><i class="fa fa-file"></i> Content</label>
+											<label><i class="fa fa-file"></i> <?php echo uilang("Content") ?></label>
 											<textarea name="editpostcontent" style="height: 250px;"><?php echo $row["content"] ?></textarea>
 											<br><br>
-											<label><i class="fa fa-image"></i> Image File</label>
+											<label><i class="fa fa-image"></i> <?php echo uilang("Image File") ?></label>
 											<input class="fileinput" name="newpicture" type="file" accept="image/jpeg, image/png">
-											<label><i class="fa fa-film"></i> Video File</label>
+											<label><i class="fa fa-film"></i> <?php echo uilang("Video File") ?></label></label>
 											<input class="fileinput" name="newvideo" type="file" accept="video/mp4">
 											<br>
 											<input name="id" value="<?php echo $row["id"] ?>" style="display: none;">
-											<input type="submit" value="Update" class="submitbutton">
+											<input type="submit" value="<?php echo uilang("Update") ?>" class="submitbutton">
 										</form>
 									</div>
 									<div class="progress" style="display: none">
 									<div id="upploadprogresstitle">
-										<h1>Upload progress <span class="percent">0%</span></h1>
+										<h1><?php echo uilang("Upload progress") ?> <span class="percent">0%</span></h1>
 										<div class="bar"></div>
 									</div>
 									<div id="status" style="margin-top: 30px;"></div>
@@ -397,8 +513,7 @@ $password = "%0WJoM@9s$";
 							//home
 							else{
 								?>
-								<h1>Home</h1>
-								<p>Welcome, administrator! Click <a class="textlink" href="?logout">here</a> to logout.</p>
+								<h1><?php echo uilang("Home") ?></h1>
 								<?php
 								if(isset($_GET["deletepost"])){
 									$id = mysqli_real_escape_string($connection, $_GET["deletepost"]);
@@ -423,7 +538,7 @@ $password = "%0WJoM@9s$";
 										
 										mysqli_query($connection, "DELETE FROM $tableposts WHERE id = $id");
 										
-										echo "<div class='alert'>\"" . $_GET["title"] . "\" has been deleted.</div>";
+										echo "<div class='alert'>\"" . $_GET["title"] . "\" " .uilang("has been deleted"). ".</div>";
 									}
 									
 								}
@@ -432,18 +547,18 @@ $password = "%0WJoM@9s$";
 								$result = mysqli_query($connection, $sql);
 								if($result){
 									if(mysqli_num_rows($result) == 0){
-										echo "<p>There is no post published.</p>";
+										echo "<p>" .uilang("There is no post published"). ".</p>";
 									}else{
 										?>
-										<h3><i class="fa fa-file"></i> Published Posts</h3>
+										<h3><i class="fa fa-file"></i> <?php echo uilang("Published Posts") ?></h3>
 										<table style="width: 100%">
 											<tr>
-												<th style="width: 100px;">Date</th>
-												<th>Title</th>
-												<th>Category</th>
-												<th>Views</th>
-												<th style="width: 50px;">Edit</th>
-												<th style="width: 50px;">Delete</th>
+												<th style="width: 100px;"><?php echo uilang("Date") ?></th>
+												<th><?php echo uilang("Title") ?></th>
+												<th style="width: 100px;"><?php echo uilang("Category") ?></th>
+												<th style="width: 50px;"><?php echo uilang("Views") ?></th>
+												<th style="width: 50px;"><?php echo uilang("Edit") ?></th>
+												<th style="width: 50px;"><?php echo uilang("Delete") ?></th>
 											</tr>
 											<?php
 											while($row = mysqli_fetch_assoc($result)){
@@ -456,8 +571,8 @@ $password = "%0WJoM@9s$";
 													<td><i class="fa fa-link"></i> <a href="index.php?post=<?php echo $row["postid"] ?>" target="_blank"><?php echo $row["title"] ?></a></td>
 													<td><?php echo showCatName($row["catid"]) ?></td>
 													<td><?php echo $row["views"] ?></td>
-													<td><a href="?editpost=<?php echo $row["id"] ?>"><i class="fa fa-edit"></i> Edit</a></td>
-													<td><a href="?deletepost=<?php echo $row["id"] ?>&title=<?php echo $row["title"] ?>"><i class="fa fa-trash"></i> Delete</a></td>
+													<td><a href="?editpost=<?php echo $row["id"] ?>"><i class="fa fa-edit"></i> <?php echo uilang("Edit") ?></a></td>
+													<td><a href="?deletepost=<?php echo $row["id"] ?>&title=<?php echo $row["title"] ?>"><i class="fa fa-trash"></i> <?php echo uilang("Delete") ?></a></td>
 												</tr>
 												<?php
 											}
@@ -468,7 +583,7 @@ $password = "%0WJoM@9s$";
 								}else{
 									?>
 									<script>
-										alert("WELCOME!\nClick OK to start.\nIf this message appears again, please check that you have correct database connection.")
+										alert("<?php echo uilang("WELCOME!\nClick OK to start.\nIf this message appears again, please check that you have correct database connection.") ?>")
 										location.reload()
 									</script>
 									<?php
@@ -492,7 +607,7 @@ $password = "%0WJoM@9s$";
 				if($username == $_POST["username"] && $password == $_POST["password"]){
 					$_SESSION["adminusername"] = $_POST["username"];
 					$_SESSION["adminpassword"] = $_POST["password"];
-					echo "<div class='alert'>Login success!</div>";
+					echo "<div class='alert'>" .uilang("Login success!"). "</div>";
 					echo "<script>location.href='admin.php'</script>";
 				}else{
 					echo "<div class='alert'>Login error!</div>";
@@ -502,11 +617,20 @@ $password = "%0WJoM@9s$";
 			else{
 				?>
 				<div style="padding: 100px; width: 400px; margin: 0 auto;">
-					<h1>Login</h1>
+					<div style="text-align: center; padding: 20px;">
+						<?php
+						$currentlogo = "images/logo.png";
+						if($logo != "")
+							$currentlogo = "pictures/" . $logo;
+						?>
+						<img src="<?php echo $currentlogo ?>" width="128"><br>
+						<p><?php echo $websitetitle ?> - Admin Panel</p>
+					</div>
+					<h1><?php echo uilang("Login") ?></h1>
 					<form method="post">
 						<input type="text" name="username" placeholder="Username">
 						<input type="password" name="password" placeholder="Password">
-						<input class="submitbutton" type="submit" value="Login">
+						<input class="submitbutton" type="submit" value="<?php echo uilang("Login") ?>">
 					</form>
 				</div>
 				<?php
