@@ -292,7 +292,7 @@ include("uilang.php");
 					$result = mysqli_query($connection, $sql);
 					if($result){
 						if(mysqli_num_rows($result) == 0){
-							echo "<p>No post has been published.</p>";
+							echo "<p>" .uilang("There is no post published"). ".</p>";
 						}else{
 							while($row = mysqli_fetch_assoc($result)){
 								$imagefile = $row["picture"];
