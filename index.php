@@ -263,7 +263,7 @@ include("uilang.php");
 												<?php echo $row["title"] ?>
 											</div>
 											<div style="padding-left: 14px;">
-												<p><?php echo shorten_text($row["content"], 75, ' ...', false) ?></p>
+												<p><?php echo shorten_text(strip_tags($row["content"]), 75, ' ...', false) ?></p>
 											</div>
 											<div style="padding-left: 14px;">
 												<p style="color: <?php echo $maincolor ?>; font-size: 10px;"><i class="fa fa-calendar" style="width: 10px;"></i> <?php echo $postdate ?> <i class="fa fa-eye" style="margin-left: 5px; width: 10px;"></i> <?php echo $row["views"] ?> <i class="fa fa-tag" style="margin-left: 5px; width: 10px;"></i> <?php echo showCatName($row["catid"]) ?></p>
@@ -308,7 +308,7 @@ include("uilang.php");
 										<div style="display: table; width: 100%; height: 100%; background-color: rgba(0,0,0,.5); padding: 40px; box-sizing: border-box; border-radius: 20px;">
 											<div class="smallinmobile w75">
 												<h2><?php echo shorten_text($row["title"], 21, ' ...', true) ?></h2>
-												<p><?php echo shorten_text($row["content"], 75, ' ...', false) ?></p>
+												<p><?php echo shorten_text(strip_tags($row["content"]), 75, ' ...', false) ?></p>
 											</div>
 											<div class="smallinmobile w25" style="vertical-align: middle; text-align: center;">
 												<div class="morebutton"><?php echo uilang("MORE") ?> <i class="fa fa-chevron-right" style="width: 30px;"></i></div>
