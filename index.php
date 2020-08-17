@@ -475,9 +475,9 @@ include("uilang.php");
 				}, 2000)
 			}
 			
-			//check is it match baseurl
+			//check does it match baseurl
 			var baseurl = "<?php echo $baseurl ?>"
-			if(location.href.substring(0,14) != baseurl.substring(0,14))
+			if(location.href.substring(0,10) != baseurl.substring(0,10))
 				location.href = "<?php echo $baseurl ?>"
 		</script>
 	</body>
