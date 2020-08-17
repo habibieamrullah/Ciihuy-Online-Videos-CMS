@@ -33,7 +33,7 @@ include("uilang.php");
           crossorigin="anonymous"></script>
         <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@300&display=swap" rel="stylesheet">
 		
-		<link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
+		<link rel="stylesheet" type="text/css" href="<?php echo $baseurl ?>assets/css/font-awesome.css">
 		
 		<script src="tinymce/tinymce.min.js"></script>
 		<script>
@@ -81,7 +81,7 @@ include("uilang.php");
 				
 				<div style="display: table; position: absolute; top: 0; bottom: 0; left: 0; right: 0; width: 100%; height: 100%;">
 					<div style="display: table-row; height: 100%;">
-						<div style="display: table-cell; width: 140px; background-color: black; height:">
+						<div style="display: table-cell; width: 140px; background-color: black;">
 							<div class="stickythingy">
 								<div style="padding: 40px;">
 									<?php
@@ -647,6 +647,11 @@ include("uilang.php");
 			setTimeout(function(){
 				$(".alert").slideUp()
 			}, 2000)
+			
+			//check is it match baseurl
+			var baseurl = "<?php echo $baseurl ?>"
+			if(location.href.substring(0,14) != baseurl.substring(0,14))
+				location.href = "<?php echo $baseurl ?>"
 		</script>
 	</body>
 </html>
