@@ -489,6 +489,7 @@
 		
 		.postcontent{
 			display: block;
+			padding-right: 0px;
 		}
 		
 		.randomvids{

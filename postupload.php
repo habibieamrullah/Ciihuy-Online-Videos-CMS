@@ -1,6 +1,7 @@
 <?php
 include("config.php");
 include("thumbnailgenerator.php");
+include("uilang.php");
 
 if(isset($_POST["newposttitle"])){
 	$newposttitle = mysqli_real_escape_string($connection, $_POST["newposttitle"]);
@@ -20,7 +21,7 @@ if(isset($_POST["newposttitle"])){
 			if($_FILES["newpicture"]["size"] == 0){
 				//
 			}else{
-				if($_FILES['newpicture']['error'] > 0) { echo "<div class='alert'>Error during uploading new picture, try again</div>"; }
+				if($_FILES['newpicture']['error'] > 0) { echo "<div class='alert'>" .uilang("Error during uploading. Try again"). "</div>"; }
 				$extsAllowed = array( 'jpg', 'jpeg', 'png' );
 				$uploadedfile = $_FILES["newpicture"]["name"];
 				$extension = pathinfo($uploadedfile, PATHINFO_EXTENSION);
@@ -34,11 +35,11 @@ if(isset($_POST["newposttitle"])){
 						$result = move_uploaded_file($_FILES['newpicture']['tmp_name'], $name);
 					}
 					?>
-					<div class="alert">Picture upload is OK.</div>
+					<div class="alert"><?php echo uilang("Picture upload is OK") ?>.</div>
 					<?php
 					$newpicture = $newpicture .".". $extension;
 					
-				} else { echo "<div class='alert'>Image file is not valid. Please try again.</div>"; }
+				} else { echo "<div class='alert'>".uilang("File is not valid. Please try again").".</div>"; }
 			}
 		}
 		
@@ -48,7 +49,7 @@ if(isset($_POST["newposttitle"])){
 			if($_FILES["newvideo"]["size"] == 0){
 				//
 			}else{
-				if($_FILES['newvideo']['error'] > 0) { echo "<div class='alert'>Error during uploading new video, try again</div>"; }
+				if($_FILES['newvideo']['error'] > 0) { echo "<div class='alert'>" .uilang("Error during uploading. Try again"). "</div>"; }
 				$extsAllowed = array( 'mp4' );
 				$uploadedfile = $_FILES["newvideo"]["name"];
 				$extension = pathinfo($uploadedfile, PATHINFO_EXTENSION);
@@ -57,24 +58,24 @@ if(isset($_POST["newposttitle"])){
 					$name = "videos/" . $newvideo .".". $extension;
 					$result = move_uploaded_file($_FILES['newvideo']['tmp_name'], $name);
 					?>
-					<div class="alert">Video upload is OK.</div>
+					<div class="alert"><?php echo uilang("Video upload is OK") ?>.</div>
 					<?php
 					$newvideo = $newvideo .".". $extension;
 					
-				} else { echo "<div class='alert'>Video file is not valid. Please try again.</div>"; }
+				} else { echo "<div class='alert'>".uilang("File is not valid. Please try again").".</div>"; }
 			}
 		}
 			
 		mysqli_query($connection, "INSERT INTO $tableposts (postid, catid, title, content, picture, video, time, views) VALUES ('$postid', $catid, '$newposttitle', '$newpostcontent', '$newpicture', '$newvideo', '$currenttime', 0)");
 		
 		?>
-		<h3>Congratulation!</h3>
-		<p>New post has been published. Click <a class="textlink" href="index.php?post=<?php echo $postid ?>" target="_blank">here</a> to view it.</p>
+		<h3><?php echo uilang("Congratulation!") ?></h3>
+		<p><?php echo uilang("New post has been published. Click") ?> <a class="textlink" href="index.php?post=<?php echo $postid ?>" target="_blank"><?php echo uilang("here") ?></a> <?php echo uilang("to view it") ?>.</p>
 		<?php
 	}else{
 		?>
-		<h3>Oh no...</h3>
-		<p>You did not submit your post correctly. Click <a class="textlink" href="?newpost">here</a> to try again.</p>
+		<h3><?php echo uilang("Oh no...") ?></h3>
+		<p><?php echo uilang("You did not submit your post correctly. Click") ?> <a class="textlink" href="?newpost"><?php echo uilang("here") ?></a> <?php echo uilang("to try again") ?>.</p>
 		<script>$("#upploadprogresstitle").hide()</script>
 		<?php
 	}

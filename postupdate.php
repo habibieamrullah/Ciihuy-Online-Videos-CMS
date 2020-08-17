@@ -1,6 +1,7 @@
 <?php
 include("config.php");
 include("thumbnailgenerator.php");
+include("uilang.php");
 
 if(isset($_POST["editposttitle"]) && isset($_POST["id"])){
 	$id = mysqli_real_escape_string($connection, $_POST["id"]);
@@ -25,7 +26,7 @@ if(isset($_POST["editposttitle"]) && isset($_POST["id"])){
 				if($_FILES["newpicture"]["size"] == 0){
 					$newpicture = $oldpicture;
 				}else{
-					if($_FILES['newpicture']['error'] > 0) { echo "<div class='alert'>Error during uploading new picture, try again</div>"; }
+					if($_FILES['newpicture']['error'] > 0) { echo "<div class='alert'>" .uilang("Error during uploading. Try again"). "</div>"; }
 					$extsAllowed = array( 'jpg', 'jpeg', 'png' );
 					$uploadedfile = $_FILES["newpicture"]["name"];
 					$extension = pathinfo($uploadedfile, PATHINFO_EXTENSION);
@@ -39,16 +40,17 @@ if(isset($_POST["editposttitle"]) && isset($_POST["id"])){
 							$result = move_uploaded_file($_FILES['newpicture']['tmp_name'], $name);
 						}
 						?>
-						<div class="alert">Picture upload is OK.</div>
+						<div class="alert"><?php echo uilang("Picture upload is OK") ?>.</div>
 						<?php
 						$newpicture = $newpicture .".". $extension;
 						
 						//delete previous media
+						if($oldpicture != ""){
 						if(file_exists("pictures/" . $oldpicture))
 							unlink("pictures/" . $oldpicture);
-						
+						}
 					} else { 
-						echo "<div class='alert'>Image file is not valid. Please try again.</div>"; 
+						echo "<div class='alert'>".uilang("File is not valid. Please try again").".</div>";
 						$newpicture = $oldpicture;
 					}
 				}
@@ -62,7 +64,7 @@ if(isset($_POST["editposttitle"]) && isset($_POST["id"])){
 				if($_FILES["newvideo"]["size"] == 0){
 					$newvideo = $oldvideo;
 				}else{
-					if($_FILES['newvideo']['error'] > 0) { echo "<div class='alert'>Error during uploading new video, try again</div>"; }
+					if($_FILES['newvideo']['error'] > 0) { echo "<div class='alert'>" .uilang("Error during uploading. Try again"). "</div>"; }
 					$extsAllowed = array( 'mp4' );
 					$uploadedfile = $_FILES["newvideo"]["name"];
 					$extension = pathinfo($uploadedfile, PATHINFO_EXTENSION);
@@ -71,18 +73,20 @@ if(isset($_POST["editposttitle"]) && isset($_POST["id"])){
 						$name = "videos/" . $newvideo .".". $extension;
 						$result = move_uploaded_file($_FILES['newvideo']['tmp_name'], $name);
 						?>
-						<div class="alert">Video upload is OK.</div>
+						<div class="alert"><?php echo uilang("Video upload is OK") ?>.</div>
 						<?php
 						$newvideo = $newvideo .".". $extension;
 						
 						//delete previous media
+						if($oldvideo != ""){
 						if(file_exists("videos/" . $oldvideo))
 							unlink("videos/" . $oldvideo);
+						}
 						
 					} else { 
 					
-						echo "<div class='alert'>Video file is not valid. Please try again.</div>"; 
-						$newpicture = $oldpicture;
+						echo "<div class='alert'>".uilang("File is not valid. Please try again").".</div>";
+						$newvideo = $oldvideo;
 						
 					}
 				}

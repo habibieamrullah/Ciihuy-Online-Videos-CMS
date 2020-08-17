@@ -219,10 +219,14 @@ include("uilang.php");
 								?>
 								</div>
 								<br><br>
-								<div id="fb-root"></div>
-								<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v5.0&amp;appId=569420283509636&amp;autoLogAppEvents=1"></script>
-								 
-								<div class="fb-comments" data-href="<?php echo $baseurl ?>?post/<?php echo $row["postid"] ?>" data-width="100%" style="width: 100%; box-sizing: border-box; background-color: white; border-radius: 20px; padding: 14px;" data-numposts="14"></div>
+								
+								<div style="width: 100%; box-sizing: border-box; background-color: white; border-radius: 20px; padding: 14px;">
+									<div id="fb-root"></div>
+									<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v5.0&amp;appId=569420283509636&amp;autoLogAppEvents=1"></script>
+									 
+									<div class="fb-comments" data-href="<?php echo $baseurl ?>?post/<?php echo $row["postid"] ?>" data-width="100%"  data-numposts="14"></div>
+								</div>
+								
 								
 								<script>
 									function viewedThis(postid){

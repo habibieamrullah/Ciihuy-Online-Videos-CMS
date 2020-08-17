@@ -1,10 +1,14 @@
 <?php
 
+//Admin panel credentials
+$username = "admin";
+$password = "admin";
+
 //Database connection
 $host = "localhost";
-$databaseprefix = "ciihuyvideos_";
+$databaseprefix = "ikmaltv_";
 
-$databasename = "admin_db";
+$databasename = "admin_ikdb";
 $dbuser = "root";
 $dbpassword = "";
 

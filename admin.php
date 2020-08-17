@@ -13,10 +13,6 @@ include("config.php");
 include("functions.php");
 include("uilang.php");
 
-$username = "admin";
-$password = "admin";
-
-
 ?>
 
 
