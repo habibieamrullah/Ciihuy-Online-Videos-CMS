@@ -38,7 +38,7 @@ video VARCHAR(150) NOT NULL,
 time VARCHAR(150) NOT NULL,
 views INT(6),
 lastviewer VARCHAR(15) NOT NULL,
-content VARCHAR(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
+content TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
 )");
 
 //Creating tables - categories

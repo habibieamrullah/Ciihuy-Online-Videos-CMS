@@ -459,6 +459,10 @@ include("uilang.php");
 											<label><i class="fa fa-file"></i> <?php echo uilang("Content") ?></label>
 											<textarea name="editpostcontent" style="height: 250px;"><?php echo $row["content"] ?></textarea>
 											<br><br>
+											
+											<label><i class="fa fa-file-text-o"></i> <?php echo uilang("Video File Name (Do not change unless necessary. Only use letters and numbers.)") ?></label>
+											<input name="editvideofilename" placeholder="<?php echo uilang("Video File Name (Do not change unless necessary. Only use letters and numbers.)") ?>" value="<?php echo $row["video"] ?>">
+											
 											<label><i class="fa fa-image"></i> <?php echo uilang("Image File") ?></label>
 											<input class="fileinput" name="newpicture" type="file" accept="image/jpeg, image/png">
 											<label><i class="fa fa-film"></i> <?php echo uilang("Video File") ?></label></label>

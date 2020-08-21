@@ -8,6 +8,7 @@ if(isset($_POST["editposttitle"]) && isset($_POST["id"])){
 	$posttitle = mysqli_real_escape_string($connection, $_POST["editposttitle"]);
 	$catid = mysqli_real_escape_string($connection, $_POST["editcatid"]);
 	$content = mysqli_real_escape_string($connection, $_POST["editpostcontent"]);
+	$customvideo = mysqli_real_escape_string($connection, $_POST["editvideofilename"]);
 	
 	if($posttitle != "" && $content != ""){
 		
@@ -18,7 +19,15 @@ if(isset($_POST["editposttitle"]) && isset($_POST["id"])){
 			$row = mysqli_fetch_assoc($result);
 			
 			$oldpicture = $row["picture"];
-			$oldvideo = $row["video"];
+			$oldvideo = $customvideo;
+			
+			if($row["video"] != $customvideo){
+				if($row["video"] != ""){
+					if(file_exists("videos/" . $row["video"])){
+						unlink("videos/" . $row["video"]);
+					}
+				}
+			}
 			
 			//Picture upload
 			if(isset($_FILES["newpicture"])){
@@ -95,7 +104,7 @@ if(isset($_POST["editposttitle"]) && isset($_POST["id"])){
 			}
 			
 			mysqli_query($connection, "UPDATE $tableposts SET title = '$posttitle', catid = $catid, content = '$content', picture = '$newpicture', video = '$newvideo' WHERE id = $id");
-			echo "<div class='alert'>Post successfully updated.</div>";
+			echo "<div class='alert'>" . uilang("Post successfully updated.") . "</div>";
 		
 		}
 	}	

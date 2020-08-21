@@ -368,6 +368,7 @@
 		transition: background-color .5s;
 		border-bottom-left-radius: 20px;
 		border-top-left-radius: 20px;
+		box-sizing: border-box;
 		
 	}
 	

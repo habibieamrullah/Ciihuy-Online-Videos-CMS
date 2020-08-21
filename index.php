@@ -194,13 +194,15 @@ include("uilang.php");
 								}
 								
 								if($video != ""){
-									$video = $baseurl . "videos/" . $video;
-									?>
-									<video id="webvideo" poster="<?php echo $picture ?>" controls>
-										<source src="<?php echo $video ?>" type="video/mp4">
-										Your browser does not support the video tag.
-									</video>
-									<?php
+									if(file_exists("videos/" . $video)){
+										$video = $baseurl . "videos/" . $video
+										?>
+										<video id="webvideo" poster="<?php echo $picture ?>" controls>
+											<source src="<?php echo $video ?>" type="video/mp4">
+											Your browser does not support the video tag.
+										</video>
+										<?php
+									}
 								}
 								
 								$mil = $row["time"];
