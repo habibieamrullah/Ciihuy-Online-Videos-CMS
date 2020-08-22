@@ -272,7 +272,7 @@ include("uilang.php");
 												<p><?php echo shorten_text(strip_tags($row["content"]), 75, ' ...', false) ?></p>
 											</div>
 											<div style="padding-left: 14px;">
-												<p style="color: <?php echo $maincolor ?>; font-size: 10px;"><i class="fa fa-calendar" style="width: 10px;"></i> <?php echo $postdate ?> <i class="fa fa-eye" style="margin-left: 5px; width: 10px;"></i> <?php echo $row["views"] ?> <i class="fa fa-tag" style="margin-left: 5px; width: 10px;"></i> <?php echo showCatName($row["catid"]) ?></p>
+												<p style="color: <?php echo $maincolor ?>; font-size: 12px;"><i class="fa fa-eye" style="margin-left: 5px; width: 10px;"></i> <?php echo $row["views"] ?> <i class="fa fa-tag" style="margin-left: 5px; width: 10px;"></i> <?php echo showCatName($row["catid"]) ?></p>
 											</div>
 											
 										</div>
