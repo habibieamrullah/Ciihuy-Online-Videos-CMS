@@ -247,6 +247,7 @@
 		border-radius: 20px;
 		border: 1px solid black;
 		transition: border .5s;
+		height: 200px;
 	}
 	
 	.firstthreeblock:hover{
@@ -304,8 +305,8 @@
 	
 	.filmblock{
 		display: inline-block;
-		width: 150px;
-		height: 200px;
+		width: 200px;
+		height: 256px;
 		padding: 5px;
 		padding-top: 10px;
 		padding-bottom: 10px;
@@ -433,6 +434,7 @@
 	
 	.w75{
 		width: 75%;
+		padding-right: 20px;
 	}
 	
 	.w25{
@@ -482,6 +484,7 @@
 		
 		.firstthreeblock{
 			margin: 10px;
+			height: auto;
 		}
 		
 		.posttableblock{
@@ -523,6 +526,10 @@
 		
 		#webvideo{
 			height: 256px;
+		}
+		
+		.w75{
+			padding-right: 0px;
 		}
 		
 	}

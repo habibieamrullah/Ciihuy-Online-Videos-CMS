@@ -37,7 +37,7 @@ include("uilang.php");
 		
 		<script src="tinymce/tinymce.min.js"></script>
 		<script>
-			tinymce.init({ selector : 'textarea' , plugins : 'directionality, code', toolbar : 'ltr rtl, code', relative_urls: false, remove_script_host : false, });
+			tinymce.init({ selector : 'textarea' , plugins : 'directionality, code', toolbar: "ltr rtl | alignleft aligncenter alignright alignjustify | outdent indent | sizeselect | bold italic | fontselect |  fontsizeselect", relative_urls: false, remove_script_host : true, });
 		</script>
 		<script src="jquery.form.js"></script>
 		<script src="jscolor.js"></script>

@@ -104,7 +104,7 @@ include("uilang.php");
 							<a href="?post=<?php echo $vidrow["postid"] ?>">
 								<div class="filmblock" style="background: url(<?php echo $baseurl . $imagefile ?>) no-repeat center center; background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;">
 									<div style="position: absolute; bottom: 0; left: 0; right: 0; text-align: center; background-color: rgba(0,0,0,.5); padding: 10px; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
-										<h2 style="font-size: 14px;"><?php echo shorten_text($vidrow["title"], 18, ' ...', false) ?></h2>
+										<h2 style="font-size: 14px;"><?php echo shorten_text($vidrow["title"], 30, ' ...', false) ?></h2>
 									</div>
 								</div>
 							</a>
@@ -156,7 +156,7 @@ include("uilang.php");
 								<a href="?post=<?php echo $vidrow["postid"] ?>">
 									<div class="filmblock" style="background: url(<?php echo $baseurl . $imagefile ?>) no-repeat center center; background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;">
 										<div style="position: absolute; bottom: 0; left: 0; right: 0; text-align: center; background-color: rgba(0,0,0,.5); padding: 10px; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
-											<h2 style="font-size: 14px;"><?php echo shorten_text($vidrow["title"], 18, ' ...', false) ?></h2>
+											<h2 style="font-size: 14px;"><?php echo shorten_text($vidrow["title"], 30, ' ...', false) ?></h2>
 										</div>
 									</div>
 								</a>
@@ -313,8 +313,8 @@ include("uilang.php");
 									<a href="?post=<?php echo $row["postid"] ?>">
 										<div style="display: table; width: 100%; height: 100%; background-color: rgba(0,0,0,.5); padding: 40px; box-sizing: border-box; border-radius: 20px;">
 											<div class="smallinmobile w75">
-												<h2><?php echo shorten_text($row["title"], 21, ' ...', true) ?></h2>
-												<p><?php echo shorten_text(strip_tags($row["content"]), 75, ' ...', false) ?></p>
+												<h2><?php echo shorten_text($row["title"], 40, ' ...', true) ?></h2>
+												<p><?php echo shorten_text(strip_tags($row["content"]), 256, ' ...', false) ?></p>
 											</div>
 											<div class="smallinmobile w25" style="vertical-align: middle; text-align: center;">
 												<div class="morebutton"><?php echo uilang("MORE") ?> <i class="fa fa-chevron-right" style="width: 30px;"></i></div>
@@ -363,7 +363,7 @@ include("uilang.php");
 									<a href="?post=<?php echo $vidrow["postid"] ?>">
 										<div class="filmblock" style="background: url(<?php echo $baseurl . $imagefile ?>) no-repeat center center; background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;">
 											<div style="position: absolute; bottom: 0; left: 0; right: 0; text-align: center; background-color: rgba(0,0,0,.5); padding: 10px; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
-												<h2 style="font-size: 14px;"><?php echo shorten_text($vidrow["title"], 18, ' ...', false) ?></h2>
+												<h2 style="font-size: 14px;"><?php echo shorten_text($vidrow["title"], 30, ' ...', false) ?></h2>
 											</div>
 										</div>
 									</a>
