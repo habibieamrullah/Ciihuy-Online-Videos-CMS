@@ -12,3 +12,5 @@ Features included:
 - Search entire content
 - Custom logo, color and icon change ability
 - And so on...
+
+Watch this video to know how to use it: https://www.youtube.com/watch?v=PjybkAKkKVw
