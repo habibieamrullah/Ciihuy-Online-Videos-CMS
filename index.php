@@ -99,16 +99,8 @@ include("uilang.php");
 							}else{
 								$imagefile = "pictures/" . $imagefile;
 							}
-
-							?>
-							<a href="?post=<?php echo $vidrow["postid"] ?>">
-								<div class="filmblock" style="background: url(<?php echo $baseurl . $imagefile ?>) no-repeat center center; background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;">
-									<div style="position: absolute; bottom: 0; left: 0; right: 0; text-align: center; background-color: rgba(0,0,0,.5); padding: 10px; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
-										<h2 style="font-size: 14px;"><?php echo shorten_text($vidrow["title"], 30, ' ...', false) ?></h2>
-									</div>
-								</div>
-							</a>
-							<?php
+							
+							showfilmblock($vidrow, $baseurl, $imagefile, $maincolor);
 
 						}
 						?>
@@ -151,16 +143,8 @@ include("uilang.php");
 								}else{
 									$imagefile = "pictures/" . $imagefile;
 								}
-
-								?>
-								<a href="?post=<?php echo $vidrow["postid"] ?>">
-									<div class="filmblock" style="background: url(<?php echo $baseurl . $imagefile ?>) no-repeat center center; background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;">
-										<div style="position: absolute; bottom: 0; left: 0; right: 0; text-align: center; background-color: rgba(0,0,0,.5); padding: 10px; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
-											<h2 style="font-size: 14px;"><?php echo shorten_text($vidrow["title"], 30, ' ...', false) ?></h2>
-										</div>
-									</div>
-								</a>
-								<?php
+								
+								showfilmblock($vidrow, $baseurl, $imagefile, $maincolor);
 
 							}
 							?>
@@ -197,7 +181,7 @@ include("uilang.php");
 									if(file_exists("videos/" . $video)){
 										$video = $baseurl . "videos/" . $video
 										?>
-										<video id="webvideo" poster="<?php echo $picture ?>" controls>
+										<video id="webvideo" poster="<?php echo $picture ?>" controls controlsList="nodownload">
 											<source src="<?php echo $video ?>" type="video/mp4">
 											Your browser does not support the video tag.
 										</video>
@@ -358,17 +342,8 @@ include("uilang.php");
 									}else{
 										$imagefile = "pictures/" . $imagefile;
 									}
-
-									?>
-									<a href="?post=<?php echo $vidrow["postid"] ?>">
-										<div class="filmblock" style="background: url(<?php echo $baseurl . $imagefile ?>) no-repeat center center; background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;">
-											<div style="position: absolute; bottom: 0; left: 0; right: 0; text-align: center; background-color: rgba(0,0,0,.5); padding: 10px; border-bottom-left-radius: 20px; border-bottom-right-radius: 20px;">
-												<h2 style="font-size: 14px;"><?php echo shorten_text($vidrow["title"], 30, ' ...', false) ?></h2>
-											</div>
-										</div>
-									</a>
-									<?php
-
+									
+									showfilmblock($vidrow, $baseurl, $imagefile, $maincolor);
 								}
 								?>
 							</div>

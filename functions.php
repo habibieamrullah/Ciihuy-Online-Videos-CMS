@@ -144,4 +144,17 @@ function linkify($value, $protocols = array('http', 'mail'), array $attributes =
 	return preg_replace_callback('/<(\d+)>/', function ($match) use (&$links) { return $links[$match[1] - 1]; }, $value);
 }
 
+function showfilmblock($vidrow, $baseurl, $imagefile, $maincolor){
+	?>
+	<a href="?post=<?php echo $vidrow["postid"] ?>">
+		<div class="filmblock" style="background: url(<?php echo $baseurl . $imagefile ?>) no-repeat center center; background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;">
+			<div class="fbblur">
+				<h2 style="font-size: 14px;"><?php echo shorten_text($vidrow["title"], 30, ' ...', false) ?></h2>
+				<h2 style="font-size: 14px;"><span style='color: <?php echo $maincolor ?>'><i class="fa fa-eye"></i> <?php echo $vidrow["views"] ?></span></h2>
+			</div>
+		</div>
+	</a>
+	<?php
+}
+
 ?>

@@ -441,6 +441,17 @@
 		width: 25%;
 	}
 	
+	.fbblur{
+		position: absolute; bottom: 0; left: 0; right: 0; text-align: center; padding: 10px; border-bottom-left-radius: 19px; border-bottom-right-radius: 19px;
+		background-color: rgba(0,0,0,.75);
+		backdrop-filter: blur(15px);
+		-webkit-backdrop-filter: blur(15px);
+	}
+	
+	.fbblur:hover{
+		background-color: rgba(0,0,0,.9);
+	}
+	
 	/* mobile view */
 	@media (max-width: 800px){
 		.footerlink{
