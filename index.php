@@ -232,7 +232,7 @@ include("uilang.php");
 					<div class="randomvids">
 						<div class="randomvidblock"><?php echo uilang("You may like:") ?></div>
 						<?php
-						$sql = "SELECT * FROM $tableposts ORDER BY RAND() LIMIT 5";
+						$sql = "SELECT * FROM $tableposts ORDER BY RAND() LIMIT 10";
 						$result = mysqli_query($connection, $sql);
 						if(mysqli_num_rows($result) > 0){
 							while($row = mysqli_fetch_assoc($result)){
@@ -278,7 +278,7 @@ include("uilang.php");
 			<div class="section firstthreecontainer">
 				<div id="firstthree">
 					<?php
-					$sql = "SELECT * FROM $tableposts ORDER BY id DESC LIMIT 3";
+					$sql = "SELECT * FROM $tableposts ORDER BY id DESC LIMIT 14";
 					$result = mysqli_query($connection, $sql);
 					if($result){
 						if(mysqli_num_rows($result) == 0){
@@ -323,14 +323,14 @@ include("uilang.php");
 					while($row = mysqli_fetch_assoc($result)){
 						$catid = $row["id"];
 						$category = $row["category"];
-						$vidsql = "SELECT * FROM $tableposts WHERE catid = '$catid' ORDER BY id DESC LIMIT 10";
+						$vidsql = "SELECT * FROM $tableposts WHERE catid = '$catid' ORDER BY id DESC LIMIT 40";
 						$vidresult = mysqli_query($connection, $vidsql);
 						if(mysqli_num_rows($vidresult) > 0){
 							?>
 							<div class="section">
 								<div class="catseparator">
 									<div style="display: inline-block;"><h1 style="font-size: 21px;"><i class="fa fa-tag" style="color: <?php echo $maincolor ?>;"></i> <?php echo $category ?></h1></div>
-									<div style="display: inline-block; float: right; margin-top: 8px; color: <?php echo $maincolor ?>;"><a class="moreoncat" href="?category=<?php echo urlencode($category) ?>"><?php echo uilang("More in") . " " . $category ?> <i class="fa fa-plus-circle"></i></a></div>
+									<div style="display: inline-block; float: right; margin-top: 8px; color: <?php echo $maincolor ?>;"><a class="moreoncat" href="?category=<?php echo urlencode($category) ?>"><?php echo uilang("See More") . " " ?> <i class="fa fa-plus-circle"></i></a></div>
 								</div>
 							</div>
 							<div class="section gridcontainer">

@@ -33,7 +33,7 @@
 			"Logout" => "Keluar",
 			"MORE" => "LIHAT",
 			"Main Color" => "Warna Utama",
-			"More in" => "Lainnya di",
+			"See More" => "Lebih Banyak",
 			"New Post" => "Tambah Baru",
 			"New category has been added" => "Kategori baru telah ditambahkan",
 			"New category" => "Kategori baru",
