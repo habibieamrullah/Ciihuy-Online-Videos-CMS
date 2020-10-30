@@ -262,6 +262,7 @@ include("uilang.php");
 									$about = mysqli_real_escape_string($connection, $_POST["about"]);
 									$language = mysqli_real_escape_string($connection, $_POST["language"]);
 									$baseurl = mysqli_real_escape_string($connection, $_POST["baseurl"]);
+									$disablerc = mysqli_real_escape_string($connection, $_POST["disablerc"]);
 									
 									mysqli_query($connection, "UPDATE $tableconfig SET value = '$websitetitle' WHERE config = 'websitetitle'");
 									mysqli_query($connection, "UPDATE $tableconfig SET value = '$maincolor' WHERE config = 'maincolor'");
@@ -269,6 +270,7 @@ include("uilang.php");
 									mysqli_query($connection, "UPDATE $tableconfig SET value = '$about' WHERE config = 'about'");
 									mysqli_query($connection, "UPDATE $tableconfig SET value = '$language' WHERE config = 'language'");
 									mysqli_query($connection, "UPDATE $tableconfig SET value = '$baseurl' WHERE config = 'baseurl'");
+									mysqli_query($connection, "UPDATE $tableconfig SET value = $disablerc WHERE config = 'disablerc'");
 									
 									//Favicon upload
 									if(isset($_FILES["favicon"])){
@@ -368,6 +370,27 @@ include("uilang.php");
 													?>
 													<option value="en">English</option>
 													<option selected value="id">Bahasa Indonesia</option>
+													<?php
+												}
+												?>
+											</select>
+											<br>
+											<?php
+											break;
+										case "disablerc" :
+											?>
+											<label><i class="fa fa-mouse-pointer"></i> <?php echo uilang("Disable Right-Click and Download Video Button") ?></label>
+											<select name="disablerc">
+												<?php
+												if($row["value"] == 0){
+													?>
+													<option selected value=0><?php echo uilang("No") ?></option>
+													<option value=1><?php echo uilang("Yes") ?></option>
+													<?php
+												}else if($row["value"] == 1){
+													?>
+													<option value=0><?php echo uilang("No") ?></option>
+													<option selected value=1><?php echo uilang("Yes") ?></option>
 													<?php
 												}
 												?>

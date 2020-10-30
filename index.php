@@ -185,6 +185,7 @@ include("uilang.php");
 											<source src="<?php echo $video ?>" type="video/mp4">
 											Your browser does not support the video tag.
 										</video>
+										<img src="images/cinemaseat.png" style="width: 100%">
 										<?php
 									}
 								}
@@ -256,7 +257,7 @@ include("uilang.php");
 												<p><?php echo shorten_text(strip_tags($row["content"]), 75, ' ...', false) ?></p>
 											</div>
 											<div style="padding-left: 14px;">
-												<p style="color: <?php echo $maincolor ?>; font-size: 12px;"><i class="fa fa-eye" style="margin-left: 5px; width: 10px;"></i> <?php echo $row["views"] ?> <i class="fa fa-tag" style="margin-left: 5px; width: 10px;"></i> <?php echo showCatName($row["catid"]) ?></p>
+												<p style="color: <?php echo $maincolor ?>; font-size: 12px; font-weight: bold;"><i class="fa fa-eye" style="margin-left: 5px; width: 10px;"></i> <?php echo $row["views"] ?> <i class="fa fa-tag" style="margin-left: 5px; width: 10px;"></i> <?php echo showCatName($row["catid"]) ?></p>
 											</div>
 											
 										</div>
@@ -275,7 +276,7 @@ include("uilang.php");
 		else{
 			?>
 		
-			<div class="section firstthreecontainer">
+			<div class="firstthreecontainer">
 				<div id="firstthree">
 					<?php
 					$sql = "SELECT * FROM $tableposts ORDER BY id DESC LIMIT 14";
@@ -293,15 +294,17 @@ include("uilang.php");
 								}
 								?>
 								
-								<div class="firstthreeblock" style="background: url(<?php echo $baseurl . $imagefile ?>) no-repeat center center; background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;">
+								<div class="firstthreeblock" style="height: 250px; width: 100%; background: url(<?php echo $baseurl . $imagefile ?>) no-repeat center center; background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;">
 									<a href="?post=<?php echo $row["postid"] ?>">
-										<div style="display: table; width: 100%; height: 100%; background-color: rgba(0,0,0,.5); padding: 40px; box-sizing: border-box; border-radius: 20px;">
-											<div class="smallinmobile w75">
-												<h2><?php echo shorten_text($row["title"], 40, ' ...', true) ?></h2>
-												<p><?php echo shorten_text(strip_tags($row["content"]), 256, ' ...', false) ?></p>
+										<div class="firstthreeblocktextholder">
+											<div class="farbottom smallinmobile w75">
+												<div class="paddingonmobile">
+													<h2><?php echo shorten_text($row["title"], 40, ' ...', true) ?></h2>
+													<p><?php echo shorten_text(strip_tags($row["content"]), 256, ' ...', false) ?></p>
+												</div>
 											</div>
 											<div class="smallinmobile w25" style="vertical-align: middle; text-align: center;">
-												<div class="morebutton"><?php echo uilang("MORE") ?> <i class="fa fa-chevron-right" style="width: 30px;"></i></div>
+												<div class="morebutton"><?php echo uilang("WATCH") ?> <i class="fa fa-play-circle" style="width: 30px;"></i></div>
 											</div>
 										</div>
 									</a>
@@ -313,6 +316,7 @@ include("uilang.php");
 					
 					?>
 				</div>
+				
 			</div>
 			
 			<?php 
@@ -363,39 +367,13 @@ include("uilang.php");
 		}
 		
 		?>
-		<!-- Footer -->
-		<div class="section footerlink">
 		
+		<!-- Footer -->
+		
+		
+		<div class="section footerlink" style="padding-top: 75px;">
 			<div class="flblock">
-				
-				<h3><?php echo uilang("About") . " " . $websitetitle ?></h3>
-				<?php echo $about ?>
-			</div>
-			
-			<div class="flblock">
-				<h3><?php echo uilang("Recently Published") ?></h3>
-				<?php
-				$sql = "SELECT * FROM $tableposts ORDER BY id DESC LIMIT 12";
-				$result = mysqli_query($connection, $sql);
-				if($result){
-					if(mysqli_num_rows($result) > 0){
-						echo "<ul>";
-						while($row = mysqli_fetch_assoc($result)){
-							?>
-							<li><a href="?post=<?php echo $row["postid"] ?>"><i class="fa fa-circle" style="color: <?php echo $maincolor ?>; width: 20px;"></i> <?php echo $row["title"] ?></a></li>
-							<?php
-						}
-						echo "</ul>";
-					}else{
-						echo "<p>" . uilang("There is no post published") . ".</p>";
-					}
-				}
-				
-				?>
-			</div>
-			
-			<div class="flblock">
-				<h3><?php echo uilang("Categories") ?></h3>
+				<h2><?php echo uilang("Categories") ?></h2>
 				<?php
 				$sql = "SELECT * FROM $tablecategories ORDER BY category ASC";
 				$result = mysqli_query($connection, $sql);
@@ -403,7 +381,7 @@ include("uilang.php");
 					if(mysqli_num_rows($result) > 0){
 						while($row = mysqli_fetch_assoc($result)){
 							?>
-							<div class="categoryblock"><a href="?category=<?php echo urlencode($row["category"]) ?>"><i class="fa fa-tag" style="width: 10px;"></i> <?php echo $row["category"] ?></a></div>
+							<div class="categoryblock"><a href="?category=<?php echo urlencode($row["category"]) ?>"><i class="fa fa-tag" style="width: 20px;"></i> <?php echo $row["category"] ?></a></div>
 							<?php
 						}
 					}else{
@@ -413,15 +391,80 @@ include("uilang.php");
 				
 				?>
 			</div>
-			
-	
-			
+		</div>
+		
+		<div class="section footerlink">
+			<div class="flblock">
+				<h2><?php echo uilang("Recently Published") ?></h2>
+				<?php
+				$sql = "SELECT * FROM $tableposts ORDER BY id DESC LIMIT 12";
+				$result = mysqli_query($connection, $sql);
+				if($result){
+					if(mysqli_num_rows($result) > 0){
+						while($row = mysqli_fetch_assoc($result)){
+							?>
+							<div class="categoryblock"><a href="?post=<?php echo $row["postid"] ?>"><i class="fa fa-film" style="width: 20px;"></i> <?php echo $row["title"] ?></a></div>
+							<?php
+						}
+					}else{
+						echo "<p>" . uilang("There is no post published") . ".</p>";
+					}
+				}
+				
+				?>
+			</div>
+		</div>
+		
+		<div class="section footerlink">
+			<div class="flblock">
+				<h2><?php echo uilang("Top 10 Videos") ?></h2>
+				<?php
+				$sql = "SELECT * FROM $tableposts ORDER BY views DESC LIMIT 10";
+				$result = mysqli_query($connection, $sql);
+				if($result){
+					if(mysqli_num_rows($result) > 0){
+						while($row = mysqli_fetch_assoc($result)){
+							
+							$imagefile = $row["picture"];
+							if($imagefile == ""){
+								$imagefile = "images/filmbg.jpg";
+							}else{
+								$imagefile = "pictures/" . $imagefile;
+							}
+							
+							?>
+							<a href="?post=<?php echo $row["postid"] ?>">
+								<div style="display: inline-block; margin: 10px; text-align: center; width: 75px; vertical-align: top;">
+									<div style="display: inline-block; border: 1px solid white; height: 96px; width: 64px; background: url(<?php echo $baseurl . $imagefile ?>) no-repeat center center; background-size: cover; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover;"></div>
+									<p style="margin: 10px; font-size: 10px;"><?php echo $row["title"] ?></p>
+								</div>
+							</a>
+							
+							<?php
+						}
+					}else{
+						echo "<p>" . uilang("There is no post published") . ".</p>";
+					}
+				}
+				
+				?>
+			</div>
+		</div>
+		
+		<div class="section footerlink" style="padding-bottom: 75px;">
+			<div class="flblock">
+				<h2><?php echo uilang("About") . " " . $websitetitle ?></h2>
+				<?php echo $about ?>
+			</div>
 		</div>
 		
 		<div class="section footercopyright">
 			<span>© <?php echo date("Y"); ?> <?php echo $websitetitle; ?>. All rights reserved.</span>
 		</div>
 		
+		<div>
+			<img src="images/cinemaseat.png" style="width: 100%;">
+		</div>
 		
 		<div id="searchui">
 			<div class="sinputcontainer">
@@ -436,6 +479,7 @@ include("uilang.php");
                     autoplaySpeed: 3000,
                     autoplay : true,
                     infinite: true,
+					arrows : false,
                 });
             })
 			

@@ -115,14 +115,16 @@
 		display: inline-block;
 		background-color: <?php echo $maincolor ?>; 
 		border-radius: 10px;
-		color: black;
+		color: white;
 		padding: 5px;
 		font-weight: bold;
 		margin: 5px;
+		transition: background-color .5s;
 	}
 	
 	.categoryblock:hover{
 		background-color: white;
+		color: <?php echo $maincolor ?>; 
 	}
 	
 	table {
@@ -158,7 +160,8 @@
 	}
 	
 	#header{
-		background-color: #212121;		
+		background-color: rgba(33, 33, 33, .75);		
+		
 		border-bottom: 1px solid #424242;
 		position: -webkit-sticky; /* Safari */
 		position: sticky;
@@ -170,6 +173,7 @@
 		box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.75);
 		
 		z-index: 100;
+		backdrop-filter: blur(10px);
 	}
 	
 	.searchbutton{
@@ -209,7 +213,6 @@
 	.flblock{
 		display: table-cell;
 		text-align: left;
-		padding: 20px;
 		vertical-align: top;
 		max-width: 200px;
 	}
@@ -217,8 +220,9 @@
 	.footercopyright{
 		font-size: 11px;
 		color: #c6c6c6;
-		background-color: #424242;
+		border-top: 1px solid black;
 		text-align: center;
+		background-color: #212121;
 	}
 	
 	ul {
@@ -241,18 +245,24 @@
 		transition: color .5s;
 	}
 	
-	.firstthreeblock{
-		margin: 30px;
-		background-color: black;
-		border-radius: 20px;
-		border: 1px solid black;
-		transition: border .5s;
-		height: 200px;
+	#firstthree{
+		width: 100%;
+		box-sizing: border-box;
 	}
 	
-	.firstthreeblock:hover{
-		border: 1px solid <?php echo $maincolor ?>;
-		transition: border .5s;
+	.firstthreeblock{
+		background-color: black;
+		width: 100%;
+		box-sizing: border-box;
+	}
+	
+	.firstthreeblocktextholder{
+		display: table; width: 100%; height: 100%; background-color: rgba(0,0,0,.5); padding: 40px; box-sizing: border-box;
+		backdrop-filter: blur(3px);
+	}
+	
+	.firstthreeblocktextholder:hover{
+		backdrop-filter: blur(10px);
 	}
 	
 	.morebutton{
@@ -260,6 +270,7 @@
 		border-radius: 10px;
 		border: 1px solid white;
 		transition: background-color .5s;
+		font-weight: bold;
 	}
 	
 	.morebutton:hover{
@@ -272,6 +283,7 @@
 	.gridcontainer{
 		overflow: auto;
 		white-space: nowrap;
+		margin-bottom: 50px;
 	}
 	
 	.gridcontainerunscrollable{
@@ -315,12 +327,12 @@
 		position: relative; 
 		border-radius: 20px;
 		cursor: pointer;
-		border: 1px solid black;
+		border: 2px solid black;
 		transition: border .5s;
 	}
 	
 	.filmblock:hover{
-		border: 1px solid <?php echo $maincolor ?>;
+		border: 2px solid <?php echo $maincolor ?>;
 		transition: border .5s;
 	}
 	
@@ -328,10 +340,6 @@
 	
 	.hiddeninmobile{
 		display: table-cell;
-	}
-	
-	.firstthreecontainer{
-		padding-left: 60px; padding-right: 60px;
 	}
 	
 	.posttableblock{
@@ -354,7 +362,6 @@
 		height: 512px;
 		background-color: black;
 		outline: none;
-		border-radius: 14px;
 		
 		-webkit-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.75);
 		-moz-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.75);
@@ -367,8 +374,7 @@
 		width: 350px;
 		padding: 14px;
 		transition: background-color .5s;
-		border-bottom-left-radius: 20px;
-		border-top-left-radius: 20px;
+		border-radius: 20px;
 		box-sizing: border-box;
 		
 	}
@@ -430,6 +436,7 @@
 	
 	.smallinmobile{
 		display: table-cell;
+		vertical-align: middle;
 	}
 	
 	.w75{
@@ -460,11 +467,22 @@
 			width: 100%;
 		}
 		
+		.firstthreeblocktextholder{
+			position: relative;
+		}
+		
 		.smallinmobile{
-			font-size: 10px;
 			display: block;
 			width: 100%;
 			text-align: center;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			margin-bottom: 25px;
+		}
+		
+		.farbottom{
+			padding-bottom: 25px;
 		}
 		
 		.morebutton{
@@ -487,14 +505,7 @@
 			display: none;
 		}
 		
-		.firstthreecontainer{
-			padding-left: 0px; padding-right: 0px;
-			margin-bottom: -40px;
-			margin-top: -20px;
-		}
-		
 		.firstthreeblock{
-			margin: 10px;
 			height: auto;
 		}
 		
@@ -543,6 +554,9 @@
 			padding-right: 0px;
 		}
 		
+		.paddingonmobile{
+			padding: 14px;
+		}
 	}
 	
 </style>
