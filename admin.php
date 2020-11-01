@@ -71,6 +71,9 @@ include("uilang.php");
 				width: 0;
 			}
 		</style>
+		
+		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+		
 	</head>
 	<body>
 		<?php
@@ -94,6 +97,7 @@ include("uilang.php");
 								<a href="admin.php"><div class="adminleftbaritem"><i class="fa fa-home" style="width: 30px;"></i> <?php echo uilang("Home") ?></div></a>
 								<a href="?newpost"><div class="adminleftbaritem"><i class="fa fa-plus" style="width: 30px;"></i> <?php echo uilang("New Post") ?></div></a>
 								<a href="?categories"><div class="adminleftbaritem"><i class="fa fa-tag" style="width: 30px;"></i> <?php echo uilang("Categories") ?></div></a>
+								<a href="?storage"><div class="adminleftbaritem"><i class="fa fa-hdd-o" style="width: 30px;"></i> <?php echo uilang("Storage") ?></div></a>
 								<a href="?settings"><div class="adminleftbaritem"><i class="fa fa-cogs" style="width: 30px;"></i> <?php echo uilang("Settings") ?></div></a>
 								<a href="?logout"><div class="adminleftbaritem"><i class="fa fa-sign-out" style="width: 30px;"></i> <?php echo uilang("Logout") ?></div></a>
 								
@@ -240,6 +244,55 @@ include("uilang.php");
 								}
 
 							}
+							//storage
+							else if(isset($_GET["storage"])){
+								
+								$fsizepictures = folderSize("pictures/");
+								$fsizevideos = folderSize("videos/");
+								$fsizefree = $maxwebsitesize - ($ossize + $fsizepictures + $fsizevideos);
+								
+								?>
+								<h1><?php echo uilang("Storage") ?></h1>
+								<p><i class="fa fa-hdd-o" style="width: 30px;"></i> <?php echo uilang("Storage capacity") ?>: <?php echo formatSizeUnits($maxwebsitesize) ?></p>
+								<p><i class="fa fa-linux" style="width: 30px;"></i> OS: <?php echo formatSizeUnits($ossize) ?></p>
+								<p><i class="fa fa-picture-o" style="width: 30px;"></i> <?php echo uilang("Image File") ?>: <?php echo formatSizeUnits($fsizepictures) ?></p>
+								<p><i class="fa fa-film" style="width: 30px;"></i> <?php echo uilang("Video File") ?>: <?php echo formatSizeUnits($fsizevideos) ?></p>
+								<p><i class="fa fa-cube" style="width: 30px;"></i> <?php echo uilang("Unused") ?>: <?php echo formatSizeUnits($fsizefree) ?></p>
+
+								<canvas id="myChart" width="200" height="200"></canvas>
+								
+								<script>
+								var ctx = document.getElementById('myChart').getContext('2d');
+								var myChart = new Chart(ctx, {
+									type: 'pie',
+									data: {
+										labels: ['OS', '<?php echo uilang("Image File") ?>', '<?php echo uilang("Video File") ?>', '<?php echo uilang("Unused") ?>'],
+										datasets: [{
+											label: 'Storage',
+											data: [<?php echo $ossize ?>, <?php echo $fsizepictures ?>, <?php echo $fsizevideos ?>, <?php echo $fsizefree ?>],
+											backgroundColor: [
+												'rgba(255, 99, 132, 0.2)',
+												'rgba(54, 162, 235, 0.2)',
+												'rgba(255, 206, 86, 0.2)',
+												'rgba(75, 192, 192, 0.2)'
+											],
+											borderColor: [
+												'rgba(255, 99, 132, 1)',
+												'rgba(54, 162, 235, 1)',
+												'rgba(255, 206, 86, 1)',
+												'rgba(75, 192, 192, 1)'
+											],
+											borderWidth: 2
+										}]
+									},
+								});
+								</script>
+								
+								<?php
+								
+								
+							}
+							
 							//settings
 							else if(isset($_GET["settings"])){
 								?>

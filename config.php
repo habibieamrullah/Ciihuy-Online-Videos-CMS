@@ -1,16 +1,16 @@
 <?php
 
 //Admin panel credentials
-$username = "admin";
-$password = "admin";
+$username = "313ikmaltv2020";
+$password = "%0WJoM@9s$";
 
 //Database connection
 $host = "localhost";
-$databaseprefix = "ciihuyvideos_";
+$databaseprefix = "ikmaltv_";
 
-$databasename = "mydatabase";
-$dbuser = "root";
-$dbpassword = "";
+$databasename = "admin_ikdb";
+$dbuser = "admin_ikuser";
+$dbpassword = "ikmaltv*123#yahaidar";
 
 $connection = mysqli_connect($host, $dbuser, $dbpassword, $databasename);
 $connection->set_charset("utf8");
@@ -19,6 +19,10 @@ $connection->set_charset("utf8");
 $tableconfig = $databaseprefix . "config";
 $tableposts = $databaseprefix . "posts";
 $tablecategories = $databaseprefix . "categories";
+
+//File Size Settings
+$maxwebsitesize = 107374182400;
+$ossize = 2007897210;
 
 //Creating tables - config
 mysqli_query($connection, "CREATE TABLE IF NOT EXISTS $tableconfig (
@@ -54,6 +58,7 @@ $secondcolor = "#ffc446";
 $about = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 $baseurl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 $language = "en";
+$disablerc = 0;
 $logo = "";
 $baseurl = str_replace("index.php", "", $baseurl);
 
@@ -71,6 +76,7 @@ if(mysqli_num_rows($result) == 0){
 	$sql .= "INSERT INTO $tableconfig (config, value) VALUES ('language', '$language');";
 	$sql .= "INSERT INTO $tableconfig (config, value) VALUES ('logo', '$logo');";
 	$sql .= "INSERT INTO $tableconfig (config, value) VALUES ('baseurl', '$baseurl');";
+	$sql .= "INSERT INTO $tableconfig (config, value) VALUES ('disablerc', '$disablerc');";
 	
 	mysqli_multi_query($connection, $sql);
 }else{
@@ -97,6 +103,9 @@ if(mysqli_num_rows($result) == 0){
 				break;
 			case "logo" :
 				$logo = $row["value"];
+				break;
+			case "disablerc" :
+				$disablerc = $row["value"];
 				break;
 		}
 	}

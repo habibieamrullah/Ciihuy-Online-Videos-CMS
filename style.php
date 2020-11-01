@@ -222,7 +222,8 @@
 		color: #c6c6c6;
 		border-top: 1px solid black;
 		text-align: center;
-		background-color: #212121;
+		background-color: black;
+		padding: 50px;
 	}
 	
 	ul {
@@ -499,6 +500,7 @@
 			box-sizing: border-box;
 			width: 100%;
 			max-width: 720px;
+			text-align: center;
 		}
 		
 		.hiddeninmobile{
@@ -556,6 +558,12 @@
 		
 		.paddingonmobile{
 			padding: 14px;
+		}
+		
+		.strecthonmobile{
+			margin-top: -20px;
+			margin-left: -20px;
+			margin-right: -20px;
 		}
 	}
 	

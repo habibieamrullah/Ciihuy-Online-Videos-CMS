@@ -181,11 +181,13 @@ include("uilang.php");
 									if(file_exists("videos/" . $video)){
 										$video = $baseurl . "videos/" . $video
 										?>
-										<video id="webvideo" poster="<?php echo $picture ?>" controls controlsList="nodownload">
-											<source src="<?php echo $video ?>" type="video/mp4">
-											Your browser does not support the video tag.
-										</video>
-										<img src="images/cinemaseat.png" style="width: 100%">
+										<div class="strecthonmobile">
+											<video id="webvideo" poster="<?php echo $picture ?>" controls autoplay controlsList="nodownload">
+												<source src="<?php echo $video ?>" type="video/mp4">
+												Your browser does not support the video tag.
+											</video>
+											<img src="images/cinemaseat.png" style="width: 100%">
+										</div>
 										<?php
 									}
 								}
@@ -459,11 +461,7 @@ include("uilang.php");
 		</div>
 		
 		<div class="section footercopyright">
-			<span>© <?php echo date("Y"); ?> <?php echo $websitetitle; ?>. All rights reserved.</span>
-		</div>
-		
-		<div>
-			<img src="images/cinemaseat.png" style="width: 100%;">
+			<span>© <?php echo date("Y"); ?> <?php echo $websitetitle; ?>. All rights reserved.</span><!--<br><span style="color: gray">Dikembangkan oleh <a href="https://webappdev.my.id/" target="_blank" style="text-decoration: underline;">WebAppDev</a></span>-->
 		</div>
 		
 		<div id="searchui">
