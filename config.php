@@ -1,16 +1,16 @@
 <?php
 
 //Admin panel credentials
-$username = "313ikmaltv2020";
-$password = "%0WJoM@9s$";
+$username = "admin";
+$password = "admin";
 
 //Database connection
 $host = "localhost";
 $databaseprefix = "ikmaltv_";
 
-$databasename = "admin_ikdb";
-$dbuser = "admin_ikuser";
-$dbpassword = "ikmaltv*123#yahaidar";
+$databasename = "admin_db";
+$dbuser = "admin_user";
+$dbpassword = "password";
 
 $connection = mysqli_connect($host, $dbuser, $dbpassword, $databasename);
 $connection->set_charset("utf8");
