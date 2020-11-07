@@ -6,7 +6,7 @@ $password = "admin";
 
 //Database connection
 $host = "localhost";
-$databaseprefix = "ikmaltv_";
+$databaseprefix = "ciihuyvideos_";
 
 $databasename = "admin_db";
 $dbuser = "admin_user";

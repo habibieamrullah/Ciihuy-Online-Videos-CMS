@@ -186,7 +186,7 @@ include("uilang.php");
 												<source src="<?php echo $video ?>" type="video/mp4">
 												Your browser does not support the video tag.
 											</video>
-											<img src="images/cinemaseat.png" style="width: 100%">
+											<img src="images/cinemaseat.png" style="width: 100%; margin-top: -10px;">
 										</div>
 										<?php
 									}
@@ -498,6 +498,20 @@ include("uilang.php");
 			var baseurl = "<?php echo $baseurl ?>"
 			if(location.href.substring(0,10) != baseurl.substring(0,10))
 				location.href = "<?php echo $baseurl ?>"
+			
+			<?php
+			
+			if($disablerc == 1){
+				?>
+				
+				console.log("RC Disabled");
+				$(document).bind("contextmenu", function(e) {
+					return false;
+				});
+				<?php
+			}
+			
+			?>
 		</script>
 	</body>
 </html>
